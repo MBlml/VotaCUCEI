@@ -5,9 +5,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import INICIO from "./Inicio";
-import INSCRIPCION from './Inscripcion';
+import REGISTRO from "./Registro";
 
-export default class Inscripcion extends Component {
+export default class Navegacion extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,15 +20,10 @@ export default class Inscripcion extends Component {
         <NavigationContainer>
             <Stack.Navigator>
                 <Stack.Screen name="Inicio" component={INICIO} options ={{headerShown:false}} />
-                <Stack.Screen name="Inscripcion" component={INSCRIPCION} options ={{headerShown:false}} />
+                <Stack.Screen name="Registro" component={REGISTRO} options ={{headerShown:false}} />
             </Stack.Navigator>
         </NavigationContainer>
       
     );
   }
 }
-
-/* const styles = StyleSheet.create({
-
-
-}) */

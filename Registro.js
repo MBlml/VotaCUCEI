@@ -1,63 +1,84 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity} from 'react-native';
 import { NavigationContext } from '@react-navigation/native';
+import {Picker} from '@react-native-picker/picker';
 
-export default class Inicio extends Component {
+export default class Registro extends Component {
   static contextType = NavigationContext;
   constructor(props) {
     super(props);
     this.state = {
+      nombre: "",
       codigo: "",
+      correo: "",
       password: "",
+      permisos: "Votador",
     };
   }
 
   render() {
     const navigation = this.context;
 
-    const iniciarSesion = () => {
-      console.log("Has dado click al boton de ingresar");
-      console.log("Código: " + this.state.codigo);
-      console.log("Contraseña: " + this.state.password);
-    }
-
     const registrar = () => {
         console.log("Has dado click al boton de registrar");
-        navigation.navigate("Registro");
+        console.log("Nombre: " + this.state.nombre);
+        console.log("Código: " + this.state.codigo);
+        console.log("Correo: " + this.state.correo);
+        console.log("Contraseña: " + this.state.password);
+        console.log("Permisos: " + this.state.permisos); // Agrega la salida de los permisos
+      }
+    
+      const regresar = () => {
+        navigation.navigate("Inicio");
       }
 
     return (
       <View style={styles.fondo}>
+        <TouchableOpacity onPress={regresar}>
+        <Text style={{fontSize: 50, marginLeft: -170, color: "gold", position: "absolute"}}>
+        {"<"}
+        </Text>
+      </TouchableOpacity>
+
         <View style={styles.logoContainer}>
           <Image source={require('./imagenes/logo.png')} style={styles.logo} />
           <Text style={styles.tittle}>VotaCUCEI</Text>
         </View>
 
         <View style={styles.inputContainer}>
-          <Text>Iniciar Sesion</Text>
+          <Text>Registro</Text>
           <TextInput style={styles.input}
-            placeholder="Código" 
+            placeholder="Nombre"
+            onChangeText={nombre => this.setState({ nombre })}
+          />
+          <TextInput style={styles.input}
+            placeholder="Código"
             onChangeText={codigo => this.setState({ codigo })}
+          />
+          <TextInput style={styles.input}
+            placeholder="Correo"
+            onChangeText={correo => this.setState({ correo })}
           />
           <TextInput style={styles.input}
             placeholder="Contraseña"
             secureTextEntry={true}
             onChangeText={password => this.setState({ password })}
           />
+          <Picker
+            selectedValue={this.state.permisos}
+            style={styles.picker}
+            onValueChange={(itemValue, itemIndex) =>
+              this.setState({ permisos: itemValue })
+            }>
+            <Picker.Item label="Votador" value="Votador" />
+            <Picker.Item label="Contador" value="Contador" />
+          </Picker>
           <TouchableOpacity style={styles.botonLogin}
-            onPress={iniciarSesion}
-          >
-            <Text style={styles.botonLoginText}>Ingresar</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.registerContainer}>
-          <Text style={styles.buttonTextRegister1}>No tienes cuenta?</Text>
-          <TouchableOpacity style={styles.buttonRegister}
             onPress={registrar}
           >
-            <Text style={styles.buttonTextRegister2}>Registrar</Text>
+            <Text style={styles.botonLoginText}>Regristrarse</Text>
           </TouchableOpacity>
-          </View>
+        </View>
       </View>
     );
   }
@@ -71,7 +92,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   logoContainer: {
-    marginTop: 50,
+    marginTop: 0,
   },
   logo: {
     width: 300,
@@ -86,11 +107,9 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   inputContainer: {
-    marginTop: 80,
     backgroundColor: "transparent",
     alignItems: "center",
     padding: 20,
-
   },
   input: {
     color: "gold",
@@ -127,5 +146,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 15,
     marginLeft: 10,
+  },
+  picker: {
+    width: 300,
+    color: "gold",
+    backgroundColor: '#272c33',
   },
 });
