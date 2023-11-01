@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity} from 'react-native';
+import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity } from 'react-native';
 import { NavigationContext } from '@react-navigation/native';
-import {Picker} from '@react-native-picker/picker';
+import { Picker } from '@react-native-picker/picker';
 
 export default class Registro extends Component {
   static contextType = NavigationContext;
+
   constructor(props) {
     super(props);
     this.state = {
@@ -12,7 +13,7 @@ export default class Registro extends Component {
       codigo: "",
       correo: "",
       password: "",
-      permisos: "",
+      permisos: "Votador",
     };
   }
 
@@ -20,52 +21,40 @@ export default class Registro extends Component {
     const navigation = this.context;
 
     const registrar = () => {
-        console.log("Has dado click al boton de registrar");
+      console.log("Has dado click al botón de registrar");
 
-        //Logica de registro hacia la base de datos:
-        /* console.log("Datos: nombre= " + this.state.nombre + 
-                    " correo= " + this.state.correo + 
-                    " password= " + this.state.password); */
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+          console.log("Conexión exitosa");
+        }
+      };
 
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                // Typical action to be performed when the document is ready:
-                //document.getElementById("demo").innerHTML = xhttp.responseText;
-                console.log("Conexion exitosa");
-            }
+      // Modifica la URL para incluir el valor del Picker (permisos)
+      xhttp.open("GET", `https://mbdev10.000webhostapp.com/VotaCUCEI/datos.php?nombre=${this.state.nombre}&codigo=${this.state.codigo}&correo=${this.state.correo}&password=${this.state.password}&permisos=${this.state.permisos}`, true);
 
-        };
-        //https://mbdev10.000webhostapp.com/VotaCUCEI/datos.php?nombre=Manuel&codigo=216557005&correo=Manuel@gmail.com&password=123&permisos=Contador
-        xhttp.open("GET", "https://mbdev10.000webhostapp.com/VotaCUCEI/datos.php?nombre=" + this.state.nombre        
-                    + "&codigo=" + this.state.codigo
-                    + "&correo=" + this.state.correo 
-                    + "&password=" + this.state.password
-                    + "&permisos=" + this.state.permisos , true);
+      xhttp.send();
 
-        xhttp.send();
+      console.log("Nombre: " + this.state.nombre);
+      console.log("Código: " + this.state.codigo);
+      console.log("Correo: " + this.state.correo);
+      console.log("Contraseña: " + this.state.password);
+      console.log("Permisos: " + this.state.permisos);
+      alert("¡Se registró correctamente!");
+      navigation.navigate("Iniciar Sesion");
+    };
 
-
-        console.log("Nombre: " + this.state.nombre);
-        console.log("Código: " + this.state.codigo);
-        console.log("Correo: " + this.state.correo);
-        console.log("Contraseña: " + this.state.password);
-        console.log("Permisos: " + this.state.permisos);
-        alert("¡Se registró correctamente!");
-        navigation.navigate("Inicio");
-      }
-    
-      const regresar = () => {
-        navigation.navigate("Inicio");
-      }
+    const regresar = () => {
+      navigation.navigate("Iniciar Sesion");
+    };
 
     return (
       <View style={styles.fondo}>
         <TouchableOpacity onPress={regresar}>
-        <Text style={{fontSize: 50, marginLeft: -170, color: "gold", position: "absolute"}}>
-        {"<"}
-        </Text>
-      </TouchableOpacity>
+          <Text style={{ fontSize: 50, marginLeft: -170, color: "gold", position: "absolute" }}>
+            {"<"}
+          </Text>
+        </TouchableOpacity>
 
         <View style={styles.logoContainer}>
           <Image source={require('./imagenes/logo.png')} style={styles.logo} />
@@ -103,7 +92,7 @@ export default class Registro extends Component {
           <TouchableOpacity style={styles.botonLogin}
             onPress={registrar}
           >
-            <Text style={styles.botonLoginText}>Regristrarse</Text>
+            <Text style={styles.botonLoginText}>Registrarse</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -111,9 +100,10 @@ export default class Registro extends Component {
   }
 }
 
+
 const styles = StyleSheet.create({
   fondo: {
-    backgroundColor: "black",
+    backgroundColor: "rgb(14, 14, 15)",
     width: "100%",
     height: "100%",
     alignItems: "center",
@@ -157,7 +147,7 @@ const styles = StyleSheet.create({
     width: 300,
   },
   botonLoginText: {
-    color: "#272c33",
+    color: "rgb(14, 14, 15)",
     textAlign: "center",
     fontSize: 18,
     fontWeight: "bold",
