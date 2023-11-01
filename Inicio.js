@@ -90,7 +90,6 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     alignItems: "center",
     padding: 20,
-
   },
   input: {
     color: "gold",

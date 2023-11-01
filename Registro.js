@@ -12,7 +12,7 @@ export default class Registro extends Component {
       codigo: "",
       correo: "",
       password: "",
-      permisos: "Votador",
+      permisos: "",
     };
   }
 
@@ -21,11 +21,38 @@ export default class Registro extends Component {
 
     const registrar = () => {
         console.log("Has dado click al boton de registrar");
+
+        //Logica de registro hacia la base de datos:
+        /* console.log("Datos: nombre= " + this.state.nombre + 
+                    " correo= " + this.state.correo + 
+                    " password= " + this.state.password); */
+
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                // Typical action to be performed when the document is ready:
+                //document.getElementById("demo").innerHTML = xhttp.responseText;
+                console.log("Conexion exitosa");
+            }
+
+        };
+        //https://mbdev10.000webhostapp.com/VotaCUCEI/datos.php?nombre=Manuel&codigo=216557005&correo=Manuel@gmail.com&password=123&permisos=Contador
+        xhttp.open("GET", "https://mbdev10.000webhostapp.com/VotaCUCEI/datos.php?nombre=" + this.state.nombre        
+                    + "&codigo=" + this.state.codigo
+                    + "&correo=" + this.state.correo 
+                    + "&password=" + this.state.password
+                    + "&permisos=" + this.state.permisos , true);
+
+        xhttp.send();
+
+
         console.log("Nombre: " + this.state.nombre);
         console.log("Código: " + this.state.codigo);
         console.log("Correo: " + this.state.correo);
         console.log("Contraseña: " + this.state.password);
-        console.log("Permisos: " + this.state.permisos); // Agrega la salida de los permisos
+        console.log("Permisos: " + this.state.permisos);
+        alert("¡Se registró correctamente!");
+        navigation.navigate("Inicio");
       }
     
       const regresar = () => {

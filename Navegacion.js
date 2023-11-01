@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Modal, TextInput } from 'reac
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import INICIO from "./Inicio";
+import INICIO from "./Registro";
 import REGISTRO from "./Registro";
 
 export default class Navegacion extends Component {
