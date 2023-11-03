@@ -28,12 +28,15 @@ export default class IniciarSesion extends Component {
           console.log(xhttp.responseText);
           if(xhttp.responseText === "3") {
             Alert.alert("Codigo no encontrado, registrate...");
+            console.log("Codigo no encontrado, registrate...");
           } else {
             if(xhttp.responseText === '0'){
               Alert.alert("Password Erroneo, intenta de nuevo");
+              console.log("Password Erroneo, intenta de nuevo");
             } else {
               navigation.navigate("Inicio",{nombre:xhttp.responseText});
               Alert.alert("Acceso correcto!");
+              console.log("Acceso correcto!");
             }
                 
           }
@@ -41,11 +44,12 @@ export default class IniciarSesion extends Component {
       };
       
       //Sustituir GET por link de la pagina, eliminar nombre para consultar correo y contraseña
-      xhttp.open("GET", "https://mbdevpi1.000webhostapp.com/verifica.php?codigo=" + this.state.codigo + "&password=" + this.state.password, true);
+      xhttp.open("GET", "https://mbdev10.000webhostapp.com/VotaCUCEI/verifica.php?codigo=" + this.state.codigo + "&password=" + this.state.password, true);
       xhttp.send();
 
       console.log("Datos para inicio de sesion: codigo= " + this.state.codigo + " password= " + this.state.password);
-      /* navigation.navigate("Inicio",{nombre:"Manuel Barajas"}); */
+      console.log(xhttp.responseText);
+      //navigation.navigate("Inicio",{nombre:"Manuel Barajas"});
       navigation.navigate("Inicio",{nombre:xhttp.responseText});
     }
 

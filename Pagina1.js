@@ -1,88 +1,6 @@
-/* import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, Alert } from 'react-native';
-
-export default class Inicio extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-    };
-  }
-
-  render() {
-    return (
-      <View style={styles.fondo}>
-        <View style={styles.header}>
-            <Image source={require('./imagenes/logo.png')} style={styles.logo} />
-            <Text style={styles.logoText}>VotaCUCEI</Text>
-            <Text style={styles.tittle}>Inicio</Text>
-        </View>
-        <View style={styles.main}>
-            <Text style={styles.tittleMain}>Titulo de inicio</Text>
-            <Image source={require('./imagenes/logo.png')} style={styles.logo} />
-            <Text style={styles.tittleMain}>Titulo de inicio</Text>
-            <Image source={require('./imagenes/logo.png')} style={styles.logo} />
-            <Text style={styles.tittleMain}>Titulo de inicio</Text>
-            <Image source={require('./imagenes/logo.png')} style={styles.logo} />
-            <Text style={styles.tittleMain}>Titulo de inicio</Text>
-            <Image source={require('./imagenes/logo.png')} style={styles.logo} />
-            <Text style={styles.tittleMain}>Titulo de inicio</Text>
-            <Image source={require('./imagenes/logo.png')} style={styles.logo} />
-            <Text style={styles.tittleMain}>Titulo de inicio</Text>
-            <Image source={require('./imagenes/logo.png')} style={styles.logo} />
-            <Text style={styles.tittleMain}>Titulo de inicio</Text>
-            <Image source={require('./imagenes/logo.png')} style={styles.logo} />
-            <Text style={styles.tittleMain}>Titulo de inicio</Text>
-        </View>
-      </View>
-    );
-  }
-}
-
-const styles = StyleSheet.create({
-    fondo: {
-      backgroundColor: "black",
-      width: "100%",
-      height: "100%",
-    }, header: {
-        backgroundColor: "rgb(14, 14, 15)",
-        height: 50,
-        flexDirection: 'row',
-    }, tittle: {
-        marginLeft: 80,
-        fontSize: 30,
-        color: "gold",
-        fontWeight: "bold",
-        backgroundColor: "rgb(14, 14, 15)",
-        borderRadius: 10,
-        padding: 5,
-    }, logoText: {
-        fontSize: 30,
-        color: "gold",
-        fontWeight: "bold",
-        backgroundColor: "rgb(14, 14, 15)",
-        borderRadius: 10,
-        padding: 5,
-    }, logo: {
-        width: 50,
-        height: 50,
-        marginLeft: 5,
-        marginRight: 5,
-      }, main: {
-        paddingTop: 10,
-        paddingBottom: 10,
-        alignItems: "center",
-        backgroundColor: "#202320",
-      }, tittleMain: {
-        color: "gold",
-        fontSize: 30,
-      },
-  }); */
-
-
-
-  import React, { Component } from 'react';
+import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, FlatList } from 'react-native';
-/* import MenuDrawer from 'react-native-side-drawer'; */
+import MenuDrawer from 'react-native-side-drawer';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContext } from '@react-navigation/native';
 
@@ -153,37 +71,31 @@ export default class Pagina1 extends Component {
       return (
         <View style={styles.contPerfil}>
           <View style={styles.containerPerfil}>
-            <View style={styles.header}>
-              <Image source={require('./imagenes/logo.png')} style={styles.logo} />
-              <Text style={styles.logoText}>VotaCUCEI</Text>
-              <Text style={styles.tittle}>Acuerdos</Text>
-            </View> 
             <Image style={styles.imagePerfil} source={{ uri: perfilItem.Imagen }} />
             <View style={styles.textContainerPerfil}>
               <Text style={styles.namePerfil}>{perfilItem.Nombre}</Text>
-              <Text style={styles.professionPerfil}>{perfilItem.CU}</Text>
-              <Text style={styles.phonePerfil}>Id server: {perfilItem.id}</Text>
+              <Text style={styles.professionPerfil}>{perfilItem.Profesion}</Text>
+              <Text style={styles.phonePerfil}>✆ {perfilItem.Telefono}</Text>
             </View>
             <View style={styles.starContainerPerfil}>
-              <Text style={styles.ratingPerfil}>A favor: </Text>
-              <Text style={styles.ratingPerfil}>En contra: </Text>
+              <Text style={styles.ratingPerfil}>★★★★☆</Text>
             </View>
           </View>
           <TouchableOpacity style={{
                     borderWidth: 2,
-                    borderColor: "gold",
-                    backgroundColor: "gold",
+                    borderColor: "#063970",
+                    backgroundColor: "#063970",
                     width: 120,
                     height: 40,
                     borderRadius: 40,
-                    marginTop: 50,
+                    marginBottom: 20,
                     padding: 5,
                 }}>
                     
                     <Text style = {{
                         fontWeight: 'bold', fontSize: 20, marginTop: 0,
                         textAlign: "center",
-                        color: "rgb(14, 14, 15)",
+                        color: "white",
                     }}onPress={() => this.setState({ perfilItem: null })}>Volver</Text>
                 </TouchableOpacity>
         </View>
@@ -199,16 +111,23 @@ export default class Pagina1 extends Component {
 
     return (
       <View style={styles.container}>
-         
+        <MenuDrawer
+          open={this.state.open}
+          position={'left'}
+          drawerContent={this.drawerContent()}
+          drawerPercentage={45}
+          animationTime={250}
+          overlay={true}
+          opacity={0.4}
+        >
+          <TouchableOpacity onPress={this.toggleOpen} style={styles.body}>
+            <Image style={styles.imgMenu} source={require('./imagenes/drawer.png')} />
+          </TouchableOpacity>
+        </MenuDrawer>
 
-        <View style={{ marginTop: 0, marginBottom: 0 }}>
-          <View style={styles.header}>
-            <Image source={require('./imagenes/logo.png')} style={styles.logo} />
-            <Text style={styles.logoText}>VotaCUCEI</Text>
-            <Text style={styles.tittle}>Acuerdos</Text>
-          </View> 
-          
-          <FlatList style={{ backgroundColor: "rgb(14, 14, 15)", marginTop: 0, width: 400, height: '100%' }}
+        <View style={{ marginTop: 0, marginBottom: 10 }}>
+          <Text style={{ color: 'black', fontSize: 30, fontWeight: 'bold', marginLeft: 50 }}>Lista de Trabajadores</Text>
+          <FlatList style={{ backgroundColor: "#e27743", marginTop: 10, width: 400, height: '100%' }}
             data={this.state.dataSource}
             renderItem={({ item }) => (
               <TouchableOpacity onPress={() => this.abrirPerfil(item)}
@@ -220,7 +139,6 @@ export default class Pagina1 extends Component {
                       height: 150,
                       marginLeft: 20,
                       borderColor: 'black',
-                      backgroundColor: "black",
                       borderWidth: 1,
                       borderRadius: 20,
                     }}
@@ -229,15 +147,15 @@ export default class Pagina1 extends Component {
                   />
                 </View>
                 <View style={{ marginLeft: 15 }}>
-                  <Text style={{ color: 'gold', fontWeight: 'bold', fontSize: 22 }}>{item.Nombre}</Text>
-                  <Text style={{ color: 'black', backgroundColor: 'gold', fontSize: 16, borderRadius: 5, paddingRight: 5, paddingLeft: 5, width: '55%', }}>{item.CU}</Text>
-                  <Text style={{ color: 'white', fontSize: 16 }}>Id server: 000{item.id}</Text>
+                  <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 20 }}>{item.Nombre}</Text>
+                  <Text style={{ color: 'white', fontSize: 16 }}>{item.Profesion}</Text>
+                  <Text style={{ color: 'white', fontSize: 16 }}>✆ {item.Telefono}</Text>
                 </View>
               </TouchableOpacity>
             )}
 
             ItemSeparatorComponent={() => (
-              <View style={{ height: 1, backgroundColor: 'gold', marginVertical: 10 }} />
+              <View style={{ height: 8, backgroundColor: 'white', marginVertical: 10 }} />
             )}
           />
         </View>
@@ -250,7 +168,7 @@ export default class Pagina1 extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'gold',
+    backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 0,
@@ -258,7 +176,7 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   animatedBox: {
-    backgroundColor: "rgb(14, 14, 15)",
+    backgroundColor: '#e27743',
     color: 'red',
     padding: 10,
     marginTop: 55,
@@ -314,39 +232,35 @@ const styles = StyleSheet.create({
 
 
   contPerfil: {
-    backgroundColor: "rgb(14, 14, 15)",
+    backgroundColor: '#e27743',
     alignItems: 'center',
-    marginTop: -807,
-    width: "100%",
-    height: "100%",
+    marginTop: -655,
+    width: 400,
+    paddingTop: 50,
   },
   containerPerfil: {
-    backgroundColor: "rgb(14, 14, 15)",
+    backgroundColor: '#e27743',
     alignItems: 'center',
+    marginTop: -12,
   },
   imagePerfil: {
     width: 300,
     height: 300,
     alignItems: 'center',
     borderRadius: 20,
-    backgroundColor: "rgb(14, 14, 15)",
-    marginTop: 20,
   },
   textContainerPerfil: {
     marginTop: 20,
     alignItems: 'center',
   },
   namePerfil: {
-    color: 'gold',
+    color: 'white',
     fontWeight: 'bold',
     fontSize: 40,
   },
   professionPerfil: {
-    color: "rgb(14, 14, 15)",
+    color: 'white',
     fontSize: 30,
-    backgroundColor: "gold",
-    borderRadius: 5,
-    padding: 5,
   },
   phonePerfil: {
     color: 'white',
@@ -358,47 +272,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   ratingPerfil: {
-    color: 'gold',
+    color: 'white',
     fontSize: 40,
   },
-
-
-
-  fondo: {
-    backgroundColor: "rgb(14, 14, 15)",
-    width: "100%",
-    height: "100%",
-  }, header: {
-      backgroundColor: "rgb(14, 14, 15)",
-      height: 50,
-      flexDirection: 'row',
-  }, tittle: {
-      marginLeft: 40,
-      fontSize: 30,
-      color: "gold",
-      fontWeight: "bold",
-      backgroundColor: "rgb(14, 14, 15)",
-      borderRadius: 10,
-      padding: 5,
-  }, logoText: {
-      fontSize: 30,
-      color: "gold",
-      fontWeight: "bold",
-      backgroundColor: "rgb(14, 14, 15)",
-      borderRadius: 10,
-      padding: 5,
-  }, logo: {
-      width: 50,
-      height: 50,
-      marginLeft: 5,
-      marginRight: 5,
-    }, main: {
-      paddingTop: 10,
-      paddingBottom: 10,
-      alignItems: "center",
-      backgroundColor: "#202320",
-    }, tittleMain: {
-      color: "gold",
-      fontSize: 30,
-    },
 });
