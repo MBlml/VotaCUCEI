@@ -1,88 +1,5 @@
-/* import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, Alert } from 'react-native';
-
-export default class Inicio extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-    };
-  }
-
-  render() {
-    return (
-      <View style={styles.fondo}>
-        <View style={styles.header}>
-            <Image source={require('./imagenes/logo.png')} style={styles.logo} />
-            <Text style={styles.logoText}>VotaCUCEI</Text>
-            <Text style={styles.tittle}>Inicio</Text>
-        </View>
-        <View style={styles.main}>
-            <Text style={styles.tittleMain}>Titulo de inicio</Text>
-            <Image source={require('./imagenes/logo.png')} style={styles.logo} />
-            <Text style={styles.tittleMain}>Titulo de inicio</Text>
-            <Image source={require('./imagenes/logo.png')} style={styles.logo} />
-            <Text style={styles.tittleMain}>Titulo de inicio</Text>
-            <Image source={require('./imagenes/logo.png')} style={styles.logo} />
-            <Text style={styles.tittleMain}>Titulo de inicio</Text>
-            <Image source={require('./imagenes/logo.png')} style={styles.logo} />
-            <Text style={styles.tittleMain}>Titulo de inicio</Text>
-            <Image source={require('./imagenes/logo.png')} style={styles.logo} />
-            <Text style={styles.tittleMain}>Titulo de inicio</Text>
-            <Image source={require('./imagenes/logo.png')} style={styles.logo} />
-            <Text style={styles.tittleMain}>Titulo de inicio</Text>
-            <Image source={require('./imagenes/logo.png')} style={styles.logo} />
-            <Text style={styles.tittleMain}>Titulo de inicio</Text>
-        </View>
-      </View>
-    );
-  }
-}
-
-const styles = StyleSheet.create({
-    fondo: {
-      backgroundColor: "black",
-      width: "100%",
-      height: "100%",
-    }, header: {
-        backgroundColor: "rgb(14, 14, 15)",
-        height: 50,
-        flexDirection: 'row',
-    }, tittle: {
-        marginLeft: 80,
-        fontSize: 30,
-        color: "gold",
-        fontWeight: "bold",
-        backgroundColor: "rgb(14, 14, 15)",
-        borderRadius: 10,
-        padding: 5,
-    }, logoText: {
-        fontSize: 30,
-        color: "gold",
-        fontWeight: "bold",
-        backgroundColor: "rgb(14, 14, 15)",
-        borderRadius: 10,
-        padding: 5,
-    }, logo: {
-        width: 50,
-        height: 50,
-        marginLeft: 5,
-        marginRight: 5,
-      }, main: {
-        paddingTop: 10,
-        paddingBottom: 10,
-        alignItems: "center",
-        backgroundColor: "#202320",
-      }, tittleMain: {
-        color: "gold",
-        fontSize: 30,
-      },
-  }); */
-
-
-
-  import React, { Component } from 'react';
+import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, FlatList } from 'react-native';
-/* import MenuDrawer from 'react-native-side-drawer'; */
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContext } from '@react-navigation/native';
 
@@ -240,6 +157,7 @@ export default class Pagina1 extends Component {
               <View style={{ height: 1, backgroundColor: 'gold', marginVertical: 10 }} />
             )}
           />
+          
         </View>
         {/* Llama a la función renderPerfil para mostrar los detalles del perfil */}
         {this.renderPerfil()}
@@ -402,3 +320,9 @@ const styles = StyleSheet.create({
       fontSize: 30,
     },
 });
+
+
+
+// -Solamente mostrar un acuerdo, al votar todos, se muestra el siguiente...
+// -Los usuarios ya deben estar registrados
+// -
