@@ -6,7 +6,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import INICIARSESION from "./IniciarSesion";
 import REGISTRO from "./Registro";
-import INICIO from "./Inicio";
+import INICIOVOTADOR from "./InicioVotador";
+import INICIOCONTADOR from "./InicioContador";
 
 export default class Navegacion extends Component {
   constructor(props) {
@@ -22,7 +23,8 @@ export default class Navegacion extends Component {
             <Stack.Navigator>
                 <Stack.Screen name="Iniciar Sesion" component={INICIARSESION} options ={{headerShown:false}} />
                 <Stack.Screen name="Registro" component={REGISTRO} options ={{headerShown:false}} />
-                <Stack.Screen name="Inicio" component={INICIO} options ={{headerShown:false}} />
+                <Stack.Screen name="InicioContador" component={INICIOCONTADOR} options ={{headerShown:false}} />
+                <Stack.Screen name="InicioVotador" component={INICIOVOTADOR} options ={{headerShown:false}} />
             </Stack.Navigator>
         </NavigationContainer>
       

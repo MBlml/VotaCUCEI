@@ -34,7 +34,7 @@ export default class IniciarSesion extends Component {
               Alert.alert("Password Erroneo, intenta de nuevo");
               console.log("Password Erroneo, intenta de nuevo");
             } else {
-              navigation.navigate("Inicio",{nombre:xhttp.responseText});
+              navigation.navigate("InicioVotador",{nombre:xhttp.responseText});
               Alert.alert("Acceso correcto!");
               console.log("Acceso correcto!");
             }
@@ -49,9 +49,11 @@ export default class IniciarSesion extends Component {
 
       console.log("Datos para inicio de sesion: codigo= " + this.state.codigo + " password= " + this.state.password);
       console.log(xhttp.responseText);
-      //navigation.navigate("Inicio",{nombre:"Manuel Barajas"});
-      navigation.navigate("Inicio",{nombre:xhttp.responseText});
+      //navigation.navigate("InicioVotador",{nombre:"Manuel Barajas"});
+      navigation.navigate("InicioContador",{nombre:xhttp.responseText});
     }
+
+    //Agregar la validacion si es votador o contador para mostrar la pantalla correspondiente
 
     const registrar = () => {
         console.log("Has dado click al boton de registrar");
