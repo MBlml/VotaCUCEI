@@ -72,15 +72,34 @@ export default class Pagina1 extends Component {
             </View>
 
 
-            <Text style={{fontSize: 20, color: "gold", textAlign: "center", marginTop: 0, marginBottom: 10, position: "absolute", top: 715,left: 110,}}>
-              ¿Estás de acuerdo? 
+
+            <View style={styles.textContainerPerfil}>
+              <View>
+                <Text style={styles.namePerfil}>De acuerdo:                10</Text>
+                <Text style={styles.namePerfil}>En desacuerdo:            0</Text>
+              </View>
+            </View>
+
+            <View style={styles.textContainerPerfil}>
+              <View>
+                <Text style={styles.namePerfil}>Total:                           10</Text>
+              </View>
+            </View>
+
+            <View style={styles.textContainerPerfil}>
+              <View>
+                <Text style={styles.namePerfil}>Faltan:                         10</Text>
+              </View>
+            </View>
+
+
+
+            <Text style={{fontSize: 20, color: "gold", textAlign: "center", marginTop: 0, marginBottom: 10, position: "absolute", top: 715, left: 105}}>
+                ¿Todos han votado? 
             </Text>
             <View style={styles.buttonsContainer}>
-              <TouchableOpacity style={styles.botonLogin} onPress={desAcuerdo}>
-                <Text style={styles.botonLoginText}>No ✗</Text>
-              </TouchableOpacity>
               <TouchableOpacity style={styles.botonLogin} onPress={deAcuerdo}>
-                <Text style={styles.botonLoginText}>Sí ✓</Text>
+                <Text style={styles.botonLoginText}>Siguiente</Text>
               </TouchableOpacity>
             </View>
 
@@ -211,17 +230,16 @@ const styles = StyleSheet.create({
     buttonsContainer: {
       backgroundColor: "rgb(14, 14, 15)",
       marginBottom: 30,
-      flexDirection: "row",
       position: "absolute",
       top: 755,
+      alignItems: "center",
       width: "100%",
     },
     botonLogin: {
       backgroundColor: "gold",
-      borderRadius: 5,
+      borderRadius: 10,
       padding: 10,
-      width: "40%",
-      marginLeft: 28,
+      width: "50%",
     },
     botonLoginText: {
       color: "rgb(14, 14, 15)",

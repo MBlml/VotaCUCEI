@@ -15,6 +15,14 @@ export default class IniciarSesion extends Component {
   render() {
     const navigation = this.context;
 
+    const Votar = () => {
+      navigation.navigate("InicioVotador");
+    }
+
+    const Contar = () => {
+      navigation.navigate("InicioContador");
+    }
+
     const iniciarSesion = () => {
       console.log("Has dado click al boton de ingresar");
       console.log("Código: " + this.state.codigo);
@@ -68,7 +76,26 @@ export default class IniciarSesion extends Component {
         </View>
 
         <View style={styles.inputContainer}>
-          <Text>Iniciar Sesion</Text>
+          {/* <Text>Iniciar Sesion</Text> */}
+
+
+
+          <View style={styles.registerContainer}>
+          <TouchableOpacity style={{}}
+            onPress={Votar}
+          >
+            <Text style={{color: "gold", fontSize: 25, fontWeight: "bold"}}>Votar         </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.buttonRegister}
+            onPress={Contar}
+          >
+            <Text style={{color: "gold", fontSize: 25, fontWeight: "bold"}}>    Contar</Text>
+          </TouchableOpacity>
+          </View>
+
+
+
           <TextInput style={styles.input}
             placeholder="Código" 
             onChangeText={codigo => this.setState({ codigo })}
@@ -91,7 +118,7 @@ export default class IniciarSesion extends Component {
           >
             <Text style={styles.buttonTextRegister2}>Registrar</Text>
           </TouchableOpacity>
-          </View>
+        </View>
       </View>
     );
   }
