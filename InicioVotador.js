@@ -65,26 +65,18 @@ export default class Pagina1 extends Component {
             <View style={styles.textContainerPerfil}>
               <Image style={styles.imagePerfil} source={{ uri: acuerdoItem.Imagen }} />
               <View>
-                <Text style={styles.namePerfil}>{acuerdoItem.Nombre}</Text>
-                <Text style={styles.professionPerfil}>{acuerdoItem.CU}</Text>
-                <Text style={styles.phonePerfil}>Id server: 00{acuerdoItem.id}</Text>
+                <Text style={styles.namePerfil}>{acuerdoItem.Titulo}</Text>
+                <Text style={styles.professionPerfil}>{acuerdoItem.CU} / Acuerdo: {acuerdoItem.id}</Text>
               </View>
             </View>
 
             <ScrollView style={styles.acuerdoContainer}>
-            <Text style={styles.textAcuerdo}>
-            <Text style={{fontWeight: "bold", }}>Preservación del Medio Ambiente </Text>
-            {'\n'}En el marco de la creciente conciencia global sobre la importancia de preservar nuestro entorno natural, 
-            se establece el presente acuerdo con el objetivo de promover prácticas sostenibles y reducir el impacto ambiental.
-            {'\n\n'}Reconociendo la urgencia de abordar los desafíos medioambientales, las partes involucradas acuerdan comprometerse 
-            activamente en las siguientes disposiciones: {'\n\n'}
-            <Text style={{fontWeight: "bold", }}>Conservación de la Biodiversidad: </Text> 
-            {'\n'}1) Se trabajará de manera colaborativa para preservar la diversidad biológica, 
-            protegiendo hábitats críticos y fomentando la recuperación de especies en peligro de extinción. 
-            {'\n'}2) Se promoverán investigaciones científicas y programas de educación para aumentar la conciencia sobre la 
-            importancia de la biodiversidad.{'\n'}{'\n'}
-
-            </Text>
+              <Text style={styles.textAcuerdo}>
+                <Text style={styles.textTituloAcuerdo}>
+                  {acuerdoItem.Titulo} {"\n"}
+                </Text>
+                {acuerdoItem.Subtitulo}
+              </Text>
             </ScrollView>
 
             <Text style={{fontSize: 20, color: "gold", textAlign: "center", marginTop: 0, marginBottom: 10, position: "absolute", top: 690,left: 110,}}>
@@ -140,6 +132,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   textContainerPerfil: {
+
+    whiteSpace: 'pre-line',
     marginTop: 20,
     flexDirection: "row",
     margin: 15,
@@ -160,7 +154,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 5,
     marginLeft: 20,
-    width: 55,
+    width: 200,
   },
   phonePerfil: {
     color: 'white',
@@ -176,17 +170,22 @@ const styles = StyleSheet.create({
     color: 'gold',
   },
   acuerdoContainer: {
-    margin: 20,
+    margin: 15,
     marginTop: 0,
     marginBottom: 0,
     padding: 10,
     backgroundColor: "white",
     borderRadius: 10,
     height: 480,
+    width: 362,
   },
   textAcuerdo: {
     fontSize: 18,
     color: "black",
+  },
+  textTituloAcuerdo: {
+    fontWeight: "bold",
+
   },
   
 
