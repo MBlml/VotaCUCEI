@@ -87,7 +87,7 @@ export default class Pagina1 extends Component {
             </Text>
             </ScrollView>
 
-            <Text style={{fontSize: 20, color: "gold", textAlign: "center", marginTop: 0, marginBottom: 10, position: "absolute", top: 715,left: 110,}}>
+            <Text style={{fontSize: 20, color: "gold", textAlign: "center", marginTop: 0, marginBottom: 10, position: "absolute", top: 690,left: 110,}}>
               ¿Estás de acuerdo? 
             </Text>
             <View style={styles.buttonsContainer}>
@@ -98,6 +98,10 @@ export default class Pagina1 extends Component {
                 <Text style={styles.botonLoginText}>Sí ✓</Text>
               </TouchableOpacity>
             </View>
+
+            <TouchableOpacity style={styles.buttonAbstener} >
+              <Text style={styles.buttonTextAbstener}>Abstenerse</Text>
+            </TouchableOpacity>
 
           </View>
           
@@ -173,6 +177,8 @@ const styles = StyleSheet.create({
   },
   acuerdoContainer: {
     margin: 20,
+    marginTop: 0,
+    marginBottom: 0,
     padding: 10,
     backgroundColor: "white",
     borderRadius: 10,
@@ -228,7 +234,7 @@ const styles = StyleSheet.create({
       marginBottom: 30,
       flexDirection: "row",
       position: "absolute",
-      top: 755,
+      top: 725,
       width: "100%",
     },
     botonLogin: {
@@ -243,6 +249,13 @@ const styles = StyleSheet.create({
       textAlign: "center",
       fontSize: 18,
       fontWeight: "bold",
+    },
+    buttonTextAbstener: {
+      color: "gold",
+      fontWeight: "bold",
+      fontSize: 20,
+      marginLeft: 140,
+      top: 90,
     },
 });
 
