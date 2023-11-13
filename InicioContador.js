@@ -62,6 +62,10 @@ export default class Pagina1 extends Component {
               <Text style={styles.tittle}>Acuerdos</Text>
             </View> 
 
+            <View>
+                <Text style={{color: "gold", marginLeft: 15, marginTop: 20, fontSize: 30, fontWeight: "bold"}}>En votacion por: </Text>
+              </View>
+
             <View style={styles.textContainerPerfil}>
               <Image style={styles.imagePerfil} source={{ uri: acuerdoItem.Imagen }} />
               <View>
@@ -75,28 +79,38 @@ export default class Pagina1 extends Component {
 
             <View style={styles.textContainerPerfil}>
               <View>
-                <Text style={styles.namePerfil}>De acuerdo:                10</Text>
-                <Text style={styles.namePerfil}>En desacuerdo:            0</Text>
+                <Text style={styles.namePerfil}>De acuerdo: 0</Text>
+                <Text style={styles.namePerfil}>En desacuerdo: 0</Text>
+                <Text style={styles.namePerfil}>Se abstienen: 0</Text>
               </View>
             </View>
 
             <View style={styles.textContainerPerfil}>
               <View>
-                <Text style={styles.namePerfil}>Total:                           10</Text>
+                <Text style={styles.namePerfil}>Total: 0</Text>
               </View>
             </View>
 
-            <View style={styles.textContainerPerfil}>
+            <View style={{
+              marginTop: 20,
+              flexDirection: "row",
+              margin: 15,
+              backgroundColor: "red", //Cambia a verde si todos ya votaron
+              padding: 10,
+              borderRadius: 10,
+              marginTop: 100,
+            }}>
               <View>
-                <Text style={styles.namePerfil}>Faltan:                         10</Text>
+                <Text style={{
+                  color: "white",
+                  fontWeight: 'bold',
+                  fontSize: 30,
+                  marginLeft: 20,
+                }}>Faltan: 0 (cambia a verde si ya votaron)</Text>
               </View>
             </View>
 
 
-
-            <Text style={{fontSize: 20, color: "gold", textAlign: "center", marginTop: 0, marginBottom: 10, position: "absolute", top: 715, left: 105}}>
-                ¿Todos han votado? 
-            </Text>
             <View style={styles.buttonsContainer}>
               <TouchableOpacity style={styles.botonLogin} onPress={deAcuerdo}>
                 <Text style={styles.botonLoginText}>Siguiente</Text>
@@ -231,7 +245,7 @@ const styles = StyleSheet.create({
       backgroundColor: "rgb(14, 14, 15)",
       marginBottom: 30,
       position: "absolute",
-      top: 755,
+      top: 750,
       alignItems: "center",
       width: "100%",
     },
