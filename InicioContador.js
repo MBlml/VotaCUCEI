@@ -66,18 +66,15 @@ export default class Pagina1 extends Component {
                 <Text style={{color: "gold", marginLeft: 15, marginTop: 20, fontSize: 30, fontWeight: "bold"}}>En votacion por: </Text>
               </View>
 
-            <View style={styles.textContainerPerfil}>
+              <View style={styles.textContainerPerfil}>
               <Image style={styles.imagePerfil} source={{ uri: acuerdoItem.Imagen }} />
               <View>
-                <Text style={styles.namePerfil}>{acuerdoItem.Nombre}</Text>
-                <Text style={styles.professionPerfil}>{acuerdoItem.CU}</Text>
-                <Text style={styles.phonePerfil}>Id server: 00{acuerdoItem.id}</Text>
+                <Text style={styles.namePerfil}>{acuerdoItem.Titulo}</Text>
+                <Text style={styles.professionPerfil}>{acuerdoItem.CU} / Acuerdo: {acuerdoItem.id}</Text>
               </View>
             </View>
 
-
-
-            <View style={styles.textContainerPerfil}>
+            <View style={styles.textContainerPerfil2}>
               <View>
                 <Text style={styles.namePerfil}>De acuerdo: 0</Text>
                 <Text style={styles.namePerfil}>En desacuerdo: 0</Text>
@@ -85,7 +82,7 @@ export default class Pagina1 extends Component {
               </View>
             </View>
 
-            <View style={styles.textContainerPerfil}>
+            <View style={styles.textContainerPerfil2}>
               <View>
                 <Text style={styles.namePerfil}>Total: 0</Text>
               </View>
@@ -160,6 +157,15 @@ const styles = StyleSheet.create({
     backgroundColor: "gold",
     padding: 10,
     borderRadius: 10,
+    height: 120,
+  },
+  textContainerPerfil2: {
+    marginTop: 20,
+    flexDirection: "row",
+    margin: 15,
+    backgroundColor: "gold",
+    borderRadius: 10,
+    padding: 10,
   },
   namePerfil: {
     color: "rgb(14, 14, 15)",
@@ -174,7 +180,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 5,
     marginLeft: 20,
-    width: 55,
+    width: 200,
   },
   phonePerfil: {
     color: 'white',

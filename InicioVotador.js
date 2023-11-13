@@ -75,7 +75,12 @@ export default class Pagina1 extends Component {
                 <Text style={styles.textTituloAcuerdo}>
                   {acuerdoItem.Titulo} {"\n"}
                 </Text>
-                {acuerdoItem.Subtitulo}
+                <Text style={styles.texSubtituloAcuerdo}>
+                  {acuerdoItem.Subtitulo} {"\n\n"}
+                </Text>
+                <Text style={styles.texDescripcionAcuerdo}>
+                  {acuerdoItem.Descripcion} {"\n"}
+                </Text>
               </Text>
             </ScrollView>
 
@@ -132,14 +137,13 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   textContainerPerfil: {
-
-    whiteSpace: 'pre-line',
     marginTop: 20,
     flexDirection: "row",
     margin: 15,
     backgroundColor: "gold",
     padding: 10,
     borderRadius: 10,
+    height: 120,
   },
   namePerfil: {
     color: "rgb(14, 14, 15)",
@@ -185,7 +189,11 @@ const styles = StyleSheet.create({
   },
   textTituloAcuerdo: {
     fontWeight: "bold",
-
+    fontSize: 22,
+  },
+  texSubtituloAcuerdo: {
+    fontStyle: "italic",
+    textDecorationLine: "underline",
   },
   
 
