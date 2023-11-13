@@ -52,6 +52,8 @@ export default class Pagina1 extends Component {
       }));
     };
 
+    //Agregar funcion de abstenerse
+
     if (acuerdoItem) {
       return (
         <View style={styles.contPerfil}>

@@ -1,6 +1,5 @@
 /* 
 CONSULTAS A PROFESOR:
-
 1) Debe haber un area admin para subir los acuerdos a la API desde ahi? (Manejo de archivos)
 2) Qué tipo de validaciones deben axistir con los usuarios?
 3) Cuáles son los puntos mas importantes que evaluará el profesor?
