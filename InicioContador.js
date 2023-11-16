@@ -62,46 +62,42 @@ export default class Pagina1 extends Component {
               <Text style={styles.tittle}>Acuerdos</Text>
             </View> 
 
-            <View>
-                <Text style={{color: "gold", marginLeft: 15, marginTop: 20, fontSize: 30, fontWeight: "bold"}}>En votacion por: </Text>
-              </View>
-
-              <View style={styles.textContainerPerfil}>
+            {/* Informacion del acuerdo  */}
+            <View style={styles.textContainerPerfil}>
               <Image style={styles.imagePerfil} source={{ uri: acuerdoItem.Imagen }} />
               <View>
+              <Text style={styles.professionPerfil}>Votando por acuerdo: {acuerdoItem.id}</Text>
                 <Text style={styles.namePerfil}>{acuerdoItem.Titulo}</Text>
-                <Text style={styles.professionPerfil}>{acuerdoItem.CU} / Acuerdo: {acuerdoItem.id}</Text>
               </View>
             </View>
 
             <View style={styles.textContainerPerfil2}>
               <View>
-                <Text style={styles.namePerfil}>De acuerdo: 0</Text>
-                <Text style={styles.namePerfil}>En desacuerdo: 0</Text>
-                <Text style={styles.namePerfil}>Se abstienen: 0</Text>
+                <Text style={styles.textStatus}>De acuerdo: 0</Text>
+                <Text style={styles.textStatus}>En desacuerdo: 0</Text>
+                <Text style={styles.textStatus}>Se abstienen: 0</Text>
               </View>
             </View>
 
             <View style={styles.textContainerPerfil2}>
               <View>
-                <Text style={styles.namePerfil}>Total: 0</Text>
+                <Text style={styles.textStatus}>Total: 0</Text>
               </View>
             </View>
 
             <View style={{
-              marginTop: 20,
               flexDirection: "row",
               margin: 15,
+              marginTop: 5,
               backgroundColor: "red", //Cambia a verde si todos ya votaron
               padding: 10,
               borderRadius: 10,
-              marginTop: 100,
             }}>
               <View>
                 <Text style={{
                   color: "white",
                   fontWeight: 'bold',
-                  fontSize: 30,
+                  fontSize: 20,
                   marginLeft: 20,
                 }}>Faltan: 0 (cambia a verde si ya votaron)</Text>
               </View>
@@ -142,45 +138,50 @@ const styles = StyleSheet.create({
   },
   containerPerfil: {
     backgroundColor: "rgb(14, 14, 15)",
-    /* backgroundColor: "green", */
     width: "100%",
   },
   imagePerfil: {
-    width: 100,
-    height: 100,
+    width: 320,
+    height: 150,
     borderRadius: 5,
+    backgroundColor: "white",
   },
   textContainerPerfil: {
-    marginTop: 20,
-    flexDirection: "row",
+    marginTop: 10,
     margin: 15,
     backgroundColor: "gold",
-    padding: 10,
+    padding: 20,
     borderRadius: 10,
-    height: 120,
+    height: 400,
   },
   textContainerPerfil2: {
-    marginTop: 20,
+    marginTop: 0,
     flexDirection: "row",
     margin: 15,
     backgroundColor: "gold",
     borderRadius: 10,
     padding: 10,
+    fontSize: 15,
+  },
+  textStatus: {
+    color: "rgb(14, 14, 15)",
+    fontWeight: 'bold',
+    fontSize: 20,
+    marginTop: 0,
   },
   namePerfil: {
     color: "rgb(14, 14, 15)",
     fontWeight: 'bold',
     fontSize: 30,
-    marginLeft: 20,
+    marginTop: 10,
   },
   professionPerfil: {
-    color: "rgb(14, 14, 15)",
+    fontSize: 20,
     color: "gold",
     backgroundColor: "rgb(14, 14, 15)",
     borderRadius: 5,
     padding: 5,
-    marginLeft: 20,
-    width: 200,
+    marginTop: 20,
   },
   phonePerfil: {
     color: 'white',

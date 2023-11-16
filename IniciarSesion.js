@@ -1,10 +1,3 @@
-/* 
-CONSULTAS A PROFESOR:
-1) Debe haber un area admin para subir los acuerdos a la API desde ahi? (Manejo de archivos)
-2) Qué tipo de validaciones deben axistir con los usuarios?
-3) Cuáles son los puntos mas importantes que evaluará el profesor?
-*/
-
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { NavigationContext } from '@react-navigation/native';
@@ -85,20 +78,18 @@ export default class IniciarSesion extends Component {
         <View style={styles.inputContainer}>
           {/* <Text>Iniciar Sesion</Text> */}
 
-
-
           <View style={styles.registerContainer}>
-          <TouchableOpacity style={{}}
-            onPress={Votar}
-          >
-            <Text style={{color: "gold", fontSize: 25, fontWeight: "bold"}}>Votar         </Text>
-          </TouchableOpacity>
+            <TouchableOpacity style={{}}
+              onPress={Votar}
+            >
+              <Text style={{color: "gold", fontSize: 25, fontWeight: "bold"}}>Votar         </Text>
+            </TouchableOpacity>
 
-          <TouchableOpacity style={styles.buttonRegister}
-            onPress={Contar}
-          >
-            <Text style={{color: "gold", fontSize: 25, fontWeight: "bold"}}>    Contar</Text>
-          </TouchableOpacity>
+            <TouchableOpacity style={styles.buttonRegister}
+              onPress={Contar}
+            >
+              <Text style={{color: "gold", fontSize: 25, fontWeight: "bold"}}>    Contar</Text>
+            </TouchableOpacity>
           </View>
 
 

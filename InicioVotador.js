@@ -36,6 +36,7 @@ export default class Pagina1 extends Component {
     const { dataSource, acuerdoItemIndex } = this.state;
     const acuerdoItem = dataSource[acuerdoItemIndex];
 
+    // Funciones para los botones
     const deAcuerdo = () => {
       console.log("Estoy de acuerdo");
       // Cambiar al siguiente acuerdo
@@ -53,9 +54,20 @@ export default class Pagina1 extends Component {
     };
 
     //Agregar funcion de abstenerse
+    const abstenerse = () => {
+      console.log("Me Abstengo");
+      // Cambiar al siguiente acuerdo
+      this.setState((prevState) => ({
+        acuerdoItemIndex: (prevState.acuerdoItemIndex + 1) % dataSource.length,
+      }));
+    };
+
+
 
     if (acuerdoItem) {
       return (
+
+        /* Header con logo en info */
         <View style={styles.contPerfil}>
           <View style={styles.containerPerfil}>
             <View style={styles.header}>
@@ -64,43 +76,40 @@ export default class Pagina1 extends Component {
               <Text style={styles.tittle}>Acuerdos</Text>
             </View> 
 
+
+            {/* Informacion del acuerdo  */}
             <View style={styles.textContainerPerfil}>
               <Image style={styles.imagePerfil} source={{ uri: acuerdoItem.Imagen }} />
               <View>
+              <Text style={styles.professionPerfil}>Acuerdo a votar: {acuerdoItem.id}</Text>
                 <Text style={styles.namePerfil}>{acuerdoItem.Titulo}</Text>
-                <Text style={styles.professionPerfil}>{acuerdoItem.CU} / Acuerdo: {acuerdoItem.id}</Text>
               </View>
             </View>
 
-            <ScrollView style={styles.acuerdoContainer}>
-              <Text style={styles.textAcuerdo}>
-                <Text style={styles.textTituloAcuerdo}>
-                  {acuerdoItem.Titulo} {"\n"}
-                </Text>
-                <Text style={styles.texSubtituloAcuerdo}>
-                  {acuerdoItem.Subtitulo} {"\n\n"}
-                </Text>
-                <Text style={styles.texDescripcionAcuerdo}>
-                  {acuerdoItem.Descripcion} {"\n"}
-                </Text>
-              </Text>
-            </ScrollView>
 
-            <Text style={{fontSize: 20, color: "gold", textAlign: "center", marginTop: 0, marginBottom: 10, position: "absolute", top: 690,left: 110,}}>
-              ¿Estás de acuerdo? 
-            </Text>
+            {/*Botones para votar*/}
             <View style={styles.buttonsContainer}>
-              <TouchableOpacity style={styles.botonLogin} onPress={desAcuerdo}>
-                <Text style={styles.botonLoginText}>No ✗</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.botonLogin} onPress={deAcuerdo}>
-                <Text style={styles.botonLoginText}>Sí ✓</Text>
-              </TouchableOpacity>
+              <View style={styles.tituloBotones}>
+                <Text style={styles.tittleBotones}>
+                  ¿Estás de acuerdo? 
+                </Text>
+                <View style={styles.botones}>
+                  <TouchableOpacity style={styles.botonLogin} onPress={desAcuerdo}>
+                    <Text style={styles.botonLoginText}>No ✗</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity style={styles.botonLogin} onPress={deAcuerdo}>
+                    <Text style={styles.botonLoginText}>Sí ✓</Text>
+                  </TouchableOpacity>
+                </View>
+                
+                <TouchableOpacity style={styles.buttonAbstener} onPress={abstenerse}>
+                  <Text style={styles.buttonTextAbstener}>Abstenerse (?)</Text>
+                </TouchableOpacity>
+              </View>
             </View>
 
-            <TouchableOpacity style={styles.buttonAbstener} >
-              <Text style={styles.buttonTextAbstener}>Abstenerse</Text>
-            </TouchableOpacity>
+            
 
           </View>
           
@@ -130,36 +139,35 @@ const styles = StyleSheet.create({
   },
   containerPerfil: {
     backgroundColor: "rgb(14, 14, 15)",
-    /* backgroundColor: "green", */
     width: "100%",
   },
   imagePerfil: {
-    width: 100,
-    height: 100,
+    width: 320,
+    height: 150,
     borderRadius: 5,
+    backgroundColor: "white",
   },
   textContainerPerfil: {
     marginTop: 20,
-    flexDirection: "row",
     margin: 15,
     backgroundColor: "gold",
-    padding: 10,
+    padding: 20,
     borderRadius: 10,
-    height: 120,
+    height: 500,
   },
   namePerfil: {
     color: "rgb(14, 14, 15)",
     fontWeight: 'bold',
     fontSize: 30,
-    marginLeft: 20,
+    marginTop: 10,
   },
   professionPerfil: {
-    color: "rgb(14, 14, 15)",
+    fontSize: 20,
     color: "gold",
     backgroundColor: "rgb(14, 14, 15)",
     borderRadius: 5,
     padding: 5,
-    marginLeft: 20,
+    marginTop: 20,
     width: 200,
   },
   phonePerfil: {
@@ -240,18 +248,21 @@ const styles = StyleSheet.create({
 
     buttonsContainer: {
       backgroundColor: "rgb(14, 14, 15)",
-      marginBottom: 30,
+      alignItems: "center",
+      marginTop: 10,
+    },
+    botones: {
       flexDirection: "row",
-      position: "absolute",
-      top: 725,
-      width: "100%",
+      textAlign: "center",
+      alignItems: "center",
     },
     botonLogin: {
       backgroundColor: "gold",
       borderRadius: 5,
       padding: 10,
-      width: "40%",
-      marginLeft: 28,
+      marginRight: 10,
+      width: 150,
+      height: 50,
     },
     botonLoginText: {
       color: "rgb(14, 14, 15)",
@@ -259,13 +270,29 @@ const styles = StyleSheet.create({
       fontSize: 18,
       fontWeight: "bold",
     },
+    buttonAbstener: {
+      textAlign: "center",
+      alignItems: "center",
+    },
     buttonTextAbstener: {
       color: "gold",
       fontWeight: "bold",
       fontSize: 20,
-      marginLeft: 140,
-      top: 90,
+      marginTop: 20,
+      marginBottom: 10,
+      borderWidth: 1,
+      padding: 10,
+      borderRadius: 5,
+      borderColor: "gold",
     },
+    tittleBotones: {
+      fontSize: 22,
+      color: "gold",
+      textAlign: "center",
+      marginTop: 20,
+      marginBottom: 10,
+    }
+    
 });
 
 
