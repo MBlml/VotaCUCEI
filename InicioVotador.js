@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { View, Text, Modal, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { NavigationContext } from '@react-navigation/native';
+
+import { nombreUsuario } from './IniciarSesion'; // Importa la variable desde el archivo correspondiente
 
 export default class Pagina1 extends Component {
   static contextType = NavigationContext;
@@ -10,6 +12,8 @@ export default class Pagina1 extends Component {
     this.state = {
       dataSource: [],
       acuerdoItemIndex: 0,
+      modalVisible: false,
+      countdown: 5,
     };
   }
 
@@ -32,12 +36,62 @@ export default class Pagina1 extends Component {
     xhttp.send();
   }
 
+  // Función para mostrar el modal y controlar el contador
+  showModalForTime = () => {
+    const initialCountdown = 20; // Valor inicial del contador
+    this.setState({ modalVisible: true, countdown: initialCountdown });
+
+    // Reducir el contador cada segundo
+    this.timer = setInterval(() => {
+      this.setState(prevState => ({
+        countdown: prevState.countdown - 1
+      }), () => {
+        if (this.state.countdown === 0) {
+          clearInterval(this.timer); // Detener el temporizador cuando el contador llegue a cero
+          this.setState({ modalVisible: false });
+        }
+      });
+    }, 1000);
+  };
+
+  // Función para cerrar el modal manualmente
+  closeModal = () => {
+    clearInterval(this.timer); // Detener el temporizador
+    this.setState({ modalVisible: false, countdown: 20 }); // Reiniciar el contador a 5 cuando se cierre el modal manualmente
+  };
+
+  renderModal = () => {
+    const { modalVisible, countdown } = this.state;
+
+    return (
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          this.setState({ modalVisible: false });
+        }}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+          <Image source={require('./imagenes/logo.png')} style={{height: 300, width: 300}} />
+              <Text style={{fontSize: 30,color: "gold",fontWeight: "bold",backgroundColor: "#272c33", borderRadius: 10,
+      padding: 5,}}>VotaCUCEI</Text>
+            <Text style={styles.modalText}>{"\n\n"}Esperando a que todos voten</Text>
+            <Text style={styles.modalText}>Tiempo restante: {countdown}s{"\n\n"}</Text>
+          </View>
+        </View>
+      </Modal>
+    );
+  };
+
   renderPerfil() {
     const { dataSource, acuerdoItemIndex } = this.state;
     const acuerdoItem = dataSource[acuerdoItemIndex];
 
     // Funciones para los botones
     const deAcuerdo = () => {
+      this.showModalForTime();
       console.log("Estoy de acuerdo");
       // Cambiar al siguiente acuerdo
       this.setState((prevState) => ({
@@ -46,6 +100,7 @@ export default class Pagina1 extends Component {
     };
 
     const desAcuerdo = () => {
+      this.showModalForTime();
       console.log("Estoy en desacuerdo");
       // Cambiar al siguiente acuerdo
       this.setState((prevState) => ({
@@ -53,8 +108,8 @@ export default class Pagina1 extends Component {
       }));
     };
 
-    //Agregar funcion de abstenerse
     const abstenerse = () => {
+      this.showModalForTime();
       console.log("Me Abstengo");
       // Cambiar al siguiente acuerdo
       this.setState((prevState) => ({
@@ -73,7 +128,7 @@ export default class Pagina1 extends Component {
             <View style={styles.header}>
               <Image source={require('./imagenes/logo.png')} style={styles.logo} />
               <Text style={styles.logoText}>VotaCUCEI</Text>
-              <Text style={styles.tittle}>Acuerdos</Text>
+              <Text style={styles.tittle}>Votador</Text>
             </View> 
 
 
@@ -91,7 +146,7 @@ export default class Pagina1 extends Component {
             <View style={styles.buttonsContainer}>
               <View style={styles.tituloBotones}>
                 <Text style={styles.tittleBotones}>
-                  ¿Estás de acuerdo? 
+                {nombreUsuario},{"\n"} ¿Estás de acuerdo? 
                 </Text>
                 <View style={styles.botones}>
                   <TouchableOpacity style={styles.botonLogin} onPress={desAcuerdo}>
@@ -123,6 +178,7 @@ export default class Pagina1 extends Component {
   render() {
     return (
       <View style={styles.container}>
+        {this.renderModal()}
         {this.renderPerfil()}
       </View>
     );
@@ -132,6 +188,24 @@ export default class Pagina1 extends Component {
 
 
 const styles = StyleSheet.create({
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgb(14, 14, 15)',
+  },
+  modalContent: {
+    backgroundColor: 'gold',
+    padding: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  modalText: {
+    color: 'rgb(14, 14, 15)',
+    fontSize: 25,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
   contPerfil: {
     backgroundColor: "rgb(14, 14, 15)",
     width: "100%",
@@ -217,6 +291,7 @@ const styles = StyleSheet.create({
       width: "100%",
       flexDirection: 'row',
   }, tittle: {
+      textDecorationLine: "underline",
       marginLeft: 40,
       fontSize: 30,
       color: "gold",
@@ -287,7 +362,8 @@ const styles = StyleSheet.create({
     },
     tittleBotones: {
       fontSize: 22,
-      color: "gold",
+      fontWeight: "bold",
+      color: "white",
       textAlign: "center",
       marginTop: 20,
       marginBottom: 10,

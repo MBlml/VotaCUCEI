@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { NavigationContext } from '@react-navigation/native';
 
+export let nombreUsuario = '';
+
 export default class IniciarSesion extends Component {
   static contextType = NavigationContext;
   constructor(props) {
@@ -9,12 +11,15 @@ export default class IniciarSesion extends Component {
     this.state = {
       codigo: "",
       password: "",
+      nombre: '',
+      variableDesdePHP: '',
     };
   }
 
   render() {
     const navigation = this.context;
 
+    //Botones temporales para acceder a las pantallas
     const Votar = () => {
       navigation.navigate("InicioVotador");
     }
@@ -23,41 +28,8 @@ export default class IniciarSesion extends Component {
       navigation.navigate("InicioContador");
     }
 
-
-
-
-    
-
     const iniciarSesion = () => {
-      const { codigo, password } = this.state;
-    
-      fetch(`https://mbdev10.000webhostapp.com/VotaCUCEI/verifica.php?codigo=${codigo}&password=${password}`)
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('No se pudo realizar la solicitud al servidor.');
-          }
-          return response.text();
-        })
-        .then(data => {
-          console.log('Respuesta del servidor:', data); // Imprimir la respuesta del servidor en la consola
-          // Aquí puedes manejar la respuesta del servidor, por ejemplo, redireccionar a otra pantalla si el inicio de sesión es exitoso
-          if (data.includes('Inicio de sesión exitoso')) {
-            // Redireccionar a otra pantalla o realizar acciones después del inicio de sesión exitoso
-            console.log('Inicio de sesión exitoso');
-          } else {
-            // Manejar otras respuestas del servidor, como contraseñas incorrectas, etc.
-            console.log('Inicio de sesión fallido');
-          }
-        })
-        .catch(error => {
-          console.error('Error en la solicitud:', error);
-          // Manejo de errores aquí
-        });
-    }
-    
-    
-      
-      /* console.log("Has dado click al boton de ingresar");
+      console.log("Has dado click al boton de ingresar");
       console.log("Código: " + this.state.codigo);
       console.log("Contraseña: " + this.state.password);
 
@@ -66,18 +38,19 @@ export default class IniciarSesion extends Component {
       var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-          console.log(xhttp.responseText);
+          //console.log(xhttp.responseText);
           if(xhttp.responseText === "3") {
-            Alert.alert("Codigo no encontrado, registrate...");
-            console.log("Codigo no encontrado, registrate...");
+            Alert.alert("Usuario no encontrado","Registrate...");
+            console.log("Usuario no encontrado","Registrate...");
           } else {
             if(xhttp.responseText === '0'){
-              Alert.alert("Password Erroneo, intenta de nuevo");
-              console.log("Password Erroneo, intenta de nuevo");
+              Alert.alert("Contraseña incorrecta","Intente de nuevo");
+              console.log("Contraseña incorrecta","Intente de nuevo");
             } else {
-              navigation.navigate("InicioVotador",{nombre:xhttp.responseText});
-              Alert.alert("Acceso correcto!");
-              console.log("Acceso correcto!");
+              //Alert.alert("Acceso correcto! ", "Hola " + xhttp.responseText);
+              console.log("Acceso correcto! ");
+              
+              //navigation.navigate("InicioVotador",{nombre:xhttp.responseText});
             }
                 
           }
@@ -88,21 +61,42 @@ export default class IniciarSesion extends Component {
       xhttp.open("GET", "https://mbdev10.000webhostapp.com/VotaCUCEI/verifica.php?codigo=" + this.state.codigo + "&password=" + this.state.password, true);
       xhttp.send();
 
+      fetch(`https://mbdev10.000webhostapp.com/VotaCUCEI/verifica.php?codigo=${this.state.codigo}&password=${this.state.password}`)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data && data.nombre && data.permisos) {
+            const { nombre, permisos } = data;
+            
+            // Almacenar el nombre y los permisos en el estado del componente
+            this.setState({ nombre, permisos });
+            
+            console.log('Nombre:', nombre);
+            console.log('Permisos:', permisos);
+
+            if (permisos == "Votador") {
+              navigation.navigate("InicioVotador");
+            } if (permisos == "Contador") {
+              navigation.navigate("InicioContador");
+            }
+
+            //Exportar el nombre a las otras pantallas
+            this.setState({ nombre });
+            nombreUsuario = nombre; 
+          } else {
+            console.log('La respuesta del servidor no contiene los datos esperados.');
+          }
+        })
+        .catch((error) => {
+          console.error('Error al obtener los datos desde PHP:', error);
+        });
+
+
       console.log("Datos para inicio de sesion: codigo= " + this.state.codigo + " password= " + this.state.password);
       console.log(xhttp.responseText);
       //navigation.navigate("InicioVotador",{nombre:"Manuel Barajas"});
-      navigation.navigate("InicioContador",{nombre:xhttp.responseText}); 
-    }*/
-
-
-
-
-
-
-
-
-
-
+      //navigation.navigate("InicioContador",{nombre:xhttp.responseText}); 
+    }
+    
     //Agregar la validacion si es votador o contador para mostrar la pantalla correspondiente
 
     const registrar = () => {

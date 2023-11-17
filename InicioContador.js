@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { NavigationContext } from '@react-navigation/native';
 
+import { nombreUsuario } from './IniciarSesion'; // Importa la variable desde el archivo correspondiente
+
 export default class Pagina1 extends Component {
   static contextType = NavigationContext;
 
@@ -59,7 +61,7 @@ export default class Pagina1 extends Component {
             <View style={styles.header}>
               <Image source={require('./imagenes/logo.png')} style={styles.logo} />
               <Text style={styles.logoText}>VotaCUCEI</Text>
-              <Text style={styles.tittle}>Acuerdos</Text>
+              <Text style={styles.tittle}>Contador</Text>
             </View> 
 
             {/* Informacion del acuerdo  */}
@@ -73,15 +75,15 @@ export default class Pagina1 extends Component {
 
             <View style={styles.textContainerPerfil2}>
               <View>
-                <Text style={styles.textStatus}>De acuerdo: 0</Text>
-                <Text style={styles.textStatus}>En desacuerdo: 0</Text>
-                <Text style={styles.textStatus}>Se abstienen: 0</Text>
+                <Text style={styles.textStatus}>✓ De acuerdo:        0 </Text>
+                <Text style={styles.textStatus}>✗ En desacuerdo:   0 </Text>
+                <Text style={styles.textStatus}>?  Se abstienen:      0 </Text>
               </View>
             </View>
 
             <View style={styles.textContainerPerfil2}>
               <View>
-                <Text style={styles.textStatus}>Total: 0</Text>
+                <Text style={styles.textStatus}># Total: 0</Text>
               </View>
             </View>
 
@@ -99,7 +101,7 @@ export default class Pagina1 extends Component {
                   fontWeight: 'bold',
                   fontSize: 20,
                   marginLeft: 20,
-                }}>Faltan: 0 (cambia a verde si ya votaron)</Text>
+                }}>Faltan: 0{"\n"}Contador: {nombreUsuario}</Text>
               </View>
             </View>
 
@@ -219,6 +221,7 @@ const styles = StyleSheet.create({
       width: "100%",
       flexDirection: 'row',
   }, tittle: {
+      textDecorationLine: "underline",
       marginLeft: 40,
       fontSize: 30,
       color: "gold",
