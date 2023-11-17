@@ -23,8 +23,41 @@ export default class IniciarSesion extends Component {
       navigation.navigate("InicioContador");
     }
 
+
+
+
+    
+
     const iniciarSesion = () => {
-      console.log("Has dado click al boton de ingresar");
+      const { codigo, password } = this.state;
+    
+      fetch(`https://mbdev10.000webhostapp.com/VotaCUCEI/verifica.php?codigo=${codigo}&password=${password}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('No se pudo realizar la solicitud al servidor.');
+          }
+          return response.text();
+        })
+        .then(data => {
+          console.log('Respuesta del servidor:', data); // Imprimir la respuesta del servidor en la consola
+          // Aquí puedes manejar la respuesta del servidor, por ejemplo, redireccionar a otra pantalla si el inicio de sesión es exitoso
+          if (data.includes('Inicio de sesión exitoso')) {
+            // Redireccionar a otra pantalla o realizar acciones después del inicio de sesión exitoso
+            console.log('Inicio de sesión exitoso');
+          } else {
+            // Manejar otras respuestas del servidor, como contraseñas incorrectas, etc.
+            console.log('Inicio de sesión fallido');
+          }
+        })
+        .catch(error => {
+          console.error('Error en la solicitud:', error);
+          // Manejo de errores aquí
+        });
+    }
+    
+    
+      
+      /* console.log("Has dado click al boton de ingresar");
       console.log("Código: " + this.state.codigo);
       console.log("Contraseña: " + this.state.password);
 
@@ -58,8 +91,17 @@ export default class IniciarSesion extends Component {
       console.log("Datos para inicio de sesion: codigo= " + this.state.codigo + " password= " + this.state.password);
       console.log(xhttp.responseText);
       //navigation.navigate("InicioVotador",{nombre:"Manuel Barajas"});
-      navigation.navigate("InicioContador",{nombre:xhttp.responseText});
-    }
+      navigation.navigate("InicioContador",{nombre:xhttp.responseText}); 
+    }*/
+
+
+
+
+
+
+
+
+
 
     //Agregar la validacion si es votador o contador para mostrar la pantalla correspondiente
 

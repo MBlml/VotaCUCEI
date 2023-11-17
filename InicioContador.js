@@ -20,7 +20,7 @@ export default class Pagina1 extends Component {
     xhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
         var Temp = JSON.parse(xhttp.responseText);
-        console.log('Nuevos datos de la API:', Temp);
+        console.log('InicioVotador');
         _this.setState({ dataSource: Temp });
       }
     };
