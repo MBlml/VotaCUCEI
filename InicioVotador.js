@@ -155,7 +155,7 @@ export default function Pagina1() {
           </View>
 
           <View style={styles.textContainerPerfil}>
-            <Image style={styles.imagePerfil} source={{ uri: acuerdoItem.Imagen }} />
+            <Image source={require('./imagenes/cucei.png')} style={styles.imagePerfil} />
             <View>
               <Text style={styles.professionPerfil}>Acuerdo a votar: {acuerdoItem.id}</Text>
               <Text style={styles.namePerfil}>{acuerdoItem.Titulo}</Text>
