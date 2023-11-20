@@ -1,268 +1,198 @@
 import React, { Component, useState, useEffect } from 'react';
 import { View, Text, Modal, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import { NavigationContext } from '@react-navigation/native';
 
 import { nombreUsuario } from './IniciarSesion'; // Importa la variable desde el archivo correspondiente
 
-export default class Pagina1 extends Component {
-  static contextType = NavigationContext;
+export default function Pagina1() {
+  const [dataSource, setDataSource] = useState([]);
+  const [acuerdoItemIndex, setAcuerdoItemIndex] = useState(0);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [countdown, setCountdown] = useState(1);
+  const [statusCheck, setStatusCheck] = useState(0);
+  const [acuerdoData, setAcuerdoData] = useState(null);
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      dataSource: [],
-      acuerdoItemIndex: 0,
-      modalVisible: false,
-      countdown: 5,
-      statusCheck: 0,
-    };
-  }
-
-  // Consulta a los acuerdos
-  componentDidMount() {
-    var xhttp = new XMLHttpRequest();
-    _this = this;
-    xhttp.onreadystatechange = function () {
-      if (this.readyState == 4 && this.status == 200) {
-        var Temp = JSON.parse(xhttp.responseText);
-        console.log('InicioVotador');
-        _this.setState({ dataSource: Temp });
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          'https://mbdev10.000webhostapp.com/VotaCUCEI/acuerdos.json'
+        );
+        const data = await response.json();
+        setDataSource(data);
+        setAcuerdoData(data[acuerdoItemIndex]); // Establecer el primer acuerdo al cargar los datos
+        console.log("Antes de guardar en bd");
+        guardarDatosEnBD(data); // Llamar la función para guardar los datos en la BD
+        console.log("Despues de guardar en bd");
+      } catch (error) {
+        console.error('Error al cargar el archivo JSON:', error);
       }
     };
-    xhttp.open(
-      'GET',
-      'https://mbdev10.000webhostapp.com/VotaCUCEI/acuerdos.json',
-      true
-    );
-    xhttp.send();
-  }
+
+    fetchData();
+
+  }, [acuerdoItemIndex]);
+
+  const guardarDatosEnBD = async (data) => {
+    try {
+      // Formatear los datos para enviarlos al archivo PHP
+      const datosFormateados = data.map(item => ({
+        id: item.id,
+        CU: item.CU,
+        Imagen: item.Imagen,
+        Titulo: item.Titulo,
+        Favor: parseInt(item.Favor), // Convertir a entero
+        Contra: parseInt(item.Contra), // Convertir a entero
+        Abstiene: parseInt(item.Abstiene), // Convertir a entero
+        Total: parseInt(item.Total), // Convertir a entero
+        Faltan: parseInt(item.Faltan), // Convertir a entero
+      }));
+
+      const response = await fetch('https://mbdev10.000webhostapp.com/VotaCUCEI/archivo_guardar_datos.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(datosFormateados), // Enviar los datos formateados
+      });
+  
+      const responseData = await response.text();
+      console.log('Respuesta del servidor:', responseData);
+    } catch (error) {
+      console.error('Error al enviar datos al servidor:', error);
+    }
+  };
+  
+
+  
+  const updateFavor = () => {
+    console.log("prueba");
+  };
+  
+
+
+
+
+
+
+
+
 
   // Función para mostrar el modal y controlar el contador
-  showModalForTime = () => {
-    const initialCountdown = 5; // Valor inicial del contador
-    this.setState({ modalVisible: true, countdown: initialCountdown });
+  const showModalForTime = () => {
+    setModalVisible(true);
+    const initialCountdown = 1; // Valor inicial del contador
+    setCountdown(initialCountdown);
 
     // Reducir el contador cada segundo
-    this.timer = setInterval(() => {
-      this.setState(prevState => ({
-        countdown: prevState.countdown - 1
-      }), () => {
-        if (this.state.countdown === 0) {
-          clearInterval(this.timer); // Detener el temporizador cuando el contador llegue a cero
-          this.setState({ modalVisible: false });
-        }
-      });
+    const timer = setInterval(() => {
+      setCountdown(prevCountdown => prevCountdown - 1);
     }, 1000);
+
+    // Detener el temporizador cuando el contador llegue a cero
+    setTimeout(() => {
+      clearInterval(timer);
+      setModalVisible(false);
+    }, initialCountdown * 1000);
   };
 
-  // Función para cerrar el modal manualmente
-  closeModal = () => {
-    clearInterval(this.timer); // Detener el temporizador
-    this.setState({ modalVisible: false, countdown: 5 }); // Reiniciar el contador a 5 cuando se cierre el modal manualmente
+
+
+
+  
+  // Funciones para los botones
+  const deAcuerdo = () => {
+    showModalForTime();
+    console.log("Estoy de acuerdo");
+    // Cambiar al siguiente acuerdo
+    setAcuerdoItemIndex(prevIndex => (prevIndex + 1) % dataSource.length);
   };
 
-  renderModal = () => {
-    const { modalVisible, countdown } = this.state;
+  const desAcuerdo = () => {
+    showModalForTime();
+    console.log("Estoy en desacuerdo");
+    // Cambiar al siguiente acuerdo
+    setAcuerdoItemIndex(prevIndex => (prevIndex + 1) % dataSource.length);
+  };
 
-    return (
+  const abstenerse = () => {
+    showModalForTime();
+    console.log("Me Abstengo");
+    // Cambiar al siguiente acuerdo
+    setAcuerdoItemIndex(prevIndex => (prevIndex + 1) % dataSource.length);
+  };
+
+  const StatusCheck = () => {
+    console.log("StatusCheck: ", statusCheck);
+  };
+
+  // Renderización condicional del acuerdo
+  const acuerdoItem = dataSource[acuerdoItemIndex];
+  if (!acuerdoItem) return null;
+
+  return (
+    <View style={styles.container}>
       <Modal
         animationType="fade"
         transparent={true}
         visible={modalVisible}
-        onRequestClose={() => {
-          this.setState({ modalVisible: false });
-        }}
+        onRequestClose={() => setModalVisible(false)}
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-          <Image source={require('./imagenes/logo.png')} style={{height: 300, width: 300}} />
-              <Text style={{fontSize: 30,color: "gold",fontWeight: "bold",backgroundColor: "#272c33", borderRadius: 10,
-      padding: 5,}}>VotaCUCEI</Text>
+            <Image source={require('./imagenes/logo.png')} style={{ height: 300, width: 300 }} />
             <Text style={styles.modalText}>{"\n\n"}Esperando a que todos voten</Text>
             <Text style={styles.modalText}>Tiempo restante: {countdown}s{"\n\n"}</Text>
           </View>
         </View>
       </Modal>
-    );
-  };
 
-  renderPerfil() {
-    const { dataSource, acuerdoItemIndex } = this.state;
-    const acuerdoItem = dataSource[acuerdoItemIndex];
-
-    const [acuerdoData, setAcuerdoData] = useState(null);
-
-    // Funciones para los botones
-    const deAcuerdo = () => {
-      this.showModalForTime();
-      console.log("Estoy de acuerdo");
-      // Cambiar al siguiente acuerdo
-      this.setState((prevState) => ({
-        acuerdoItemIndex: (prevState.acuerdoItemIndex + 1) % dataSource.length,
-      }));
-    };
-
-    const desAcuerdo = () => {
-      this.showModalForTime();
-      console.log("Estoy en desacuerdo");
-      // Cambiar al siguiente acuerdo
-      this.setState((prevState) => ({
-        acuerdoItemIndex: (prevState.acuerdoItemIndex + 1) % dataSource.length,
-      }));
-    };
-
-    const abstenerse = () => {
-      this.showModalForTime();
-      console.log("Me Abstengo");
-      // Cambiar al siguiente acuerdo
-      this.setState((prevState) => ({
-        acuerdoItemIndex: (prevState.acuerdoItemIndex + 1) % dataSource.length,
-      }));
-    };
-
-    const StatusCheck = () => {
-      //this.showModalForTime();
-      // Cambiar al siguiente acuerdo
-      /* this.setState((prevState) => ({
-        acuerdoItemIndex: (prevState.acuerdoItemIndex + 1) % dataSource.length,
-      })); */
-      console.log("StatusCheck: ", this.state.statusCheck);
-    };
-
-
-
-
-    
-
-    useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const response = await fetch(
-            'https://mbdev10.000webhostapp.com/VotaCUCEI/acuerdos.json'
-          );
-          const data = await response.json();
-          setAcuerdoData(data);
-        } catch (error) {
-          console.error('Error al cargar el archivo JSON:', error);
-        }
-      };
-  
-      fetchData();
-    }, []);
-  
-    const updateFavor = async () => {
-      try {
-        if (acuerdoData) {
-          const updatedData = {
-            ...acuerdoData,
-            Favor: parseInt(acuerdoData.Favor) + 1, // Sumar 1 al campo 'Favor'
-          };
-          setAcuerdoData(updatedData);
-  
-          const response = await fetch(
-            'https://mbdev10.000webhostapp.com/VotaCUCEI/acuerdos.json',
-            {
-              method: 'PUT', // Método para actualizar el archivo (puede variar según la configuración del servidor)
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(updatedData),
-            }
-          );
-  
-          if (response.ok) {
-            console.log('Campo "Favor" actualizado correctamente.');
-          } else {
-            console.error('Error al actualizar el campo "Favor".');
-          }
-        }
-      } catch (error) {
-        console.error('Error al actualizar el campo "Favor":', error);
-      }
-    };
-
-
-
-
-
-
-
-
-
-
-
-
-
-    if (acuerdoItem) {
-      return (
-
-        /* Header con logo en info */
-        <View style={styles.contPerfil}>
-          <View style={styles.containerPerfil}>
-            <View style={styles.header}>
-              <Image source={require('./imagenes/logo.png')} style={styles.logo} />
-              <Text style={styles.logoText}>VotaCUCEI</Text>
-              <Text style={styles.tittle}>Votador</Text>
-            </View> 
-
-
-            {/* Informacion del acuerdo  */}
-            <View style={styles.textContainerPerfil}>
-              <Image style={styles.imagePerfil} source={{ uri: acuerdoItem.Imagen }} />
-              <View>
-              <Text style={styles.professionPerfil}>Acuerdo a votar: {acuerdoItem.id}</Text>
-                <Text style={styles.namePerfil}>{acuerdoItem.Titulo}</Text>
-              </View>
-            </View>
-
-
-            {/*Botones para votar*/}
-            <View style={styles.buttonsContainer}>
-              <View style={styles.tituloBotones}>
-                <Text style={styles.tittleBotones}>
-                {nombreUsuario},{"\n"} ¿Estás de acuerdo? 
-                </Text>
-                <View style={styles.botones}>
-                  <TouchableOpacity style={styles.botonLogin} onPress={desAcuerdo}>
-                    <Text style={styles.botonLoginText}>No ✗</Text>
-                  </TouchableOpacity>
-
-                  <TouchableOpacity style={styles.botonLogin} onPress={deAcuerdo}>
-                    <Text style={styles.botonLoginText}>Sí ✓</Text>
-                  </TouchableOpacity>
-                </View>
-                
-                {/* <TouchableOpacity style={styles.buttonAbstener} onPress={abstenerse}>
-                  <Text style={styles.buttonTextAbstener}>Abstenerse (?)</Text>
-                </TouchableOpacity> */}
-
-                <TouchableOpacity style={styles.buttonAbstener} onPress={updateFavor}>
-                  <Text style={styles.buttonTextAbstener}>updateFavor</Text>
-                </TouchableOpacity>
-                
-              </View>
-            </View>
-
-            
-
+      <View style={styles.contPerfil}>
+        <View style={styles.containerPerfil}>
+          <View style={styles.header}>
+            <Image source={require('./imagenes/logo.png')} style={styles.logo} />
+            <Text style={styles.logoText}>VotaCUCEI</Text>
+            <Text style={styles.tittle}>Votador</Text>
           </View>
-          
-        </View>
-      );
-    } else {
-      return null;
-    }
-  }
 
-  render() {
-    return (
-      <View style={styles.container}>
-        {this.renderModal()}
-        {this.renderPerfil()}
+          <View style={styles.textContainerPerfil}>
+            <Image style={styles.imagePerfil} source={{ uri: acuerdoItem.Imagen }} />
+            <View>
+              <Text style={styles.professionPerfil}>Acuerdo a votar: {acuerdoItem.id}</Text>
+              <Text style={styles.namePerfil}>{acuerdoItem.Titulo}</Text>
+            </View>
+          </View>
+
+          <View style={styles.buttonsContainer}>
+            <View style={styles.tituloBotones}>
+              <Text style={styles.tittleBotones}>
+                {nombreUsuario},{"\n"} ¿Estás de acuerdo?
+              </Text>
+              <View style={styles.botones}>
+                <TouchableOpacity style={styles.botonLogin} onPress={desAcuerdo}>
+                  <Text style={styles.botonLoginText}>No ✗</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.botonLogin} onPress={deAcuerdo}>
+                  <Text style={styles.botonLoginText}>Sí ✓</Text>
+                </TouchableOpacity>
+              </View>
+
+              {/* <TouchableOpacity style={styles.buttonAbstener} onPress={abstenerse}>
+                <Text style={styles.buttonTextAbstener}>Abstenerse (?)</Text>
+              </TouchableOpacity> */}
+
+              <TouchableOpacity style={styles.buttonAbstener} onPress={guardarDatosEnBD}>
+                <Text style={styles.buttonTextAbstener}>updateFavor</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
       </View>
-    );
-  }
-}
+    </View>
+  );
+};
+
+/* export default Pagina1; */
 
 
 
