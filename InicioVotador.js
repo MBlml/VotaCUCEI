@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import { View, Text, Modal, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { NavigationContext } from '@react-navigation/native';
 
@@ -14,6 +14,7 @@ export default class Pagina1 extends Component {
       acuerdoItemIndex: 0,
       modalVisible: false,
       countdown: 5,
+      statusCheck: 0,
     };
   }
 
@@ -38,7 +39,7 @@ export default class Pagina1 extends Component {
 
   // Función para mostrar el modal y controlar el contador
   showModalForTime = () => {
-    const initialCountdown = 20; // Valor inicial del contador
+    const initialCountdown = 5; // Valor inicial del contador
     this.setState({ modalVisible: true, countdown: initialCountdown });
 
     // Reducir el contador cada segundo
@@ -57,7 +58,7 @@ export default class Pagina1 extends Component {
   // Función para cerrar el modal manualmente
   closeModal = () => {
     clearInterval(this.timer); // Detener el temporizador
-    this.setState({ modalVisible: false, countdown: 20 }); // Reiniciar el contador a 5 cuando se cierre el modal manualmente
+    this.setState({ modalVisible: false, countdown: 5 }); // Reiniciar el contador a 5 cuando se cierre el modal manualmente
   };
 
   renderModal = () => {
@@ -89,6 +90,8 @@ export default class Pagina1 extends Component {
     const { dataSource, acuerdoItemIndex } = this.state;
     const acuerdoItem = dataSource[acuerdoItemIndex];
 
+    const [acuerdoData, setAcuerdoData] = useState(null);
+
     // Funciones para los botones
     const deAcuerdo = () => {
       this.showModalForTime();
@@ -116,6 +119,77 @@ export default class Pagina1 extends Component {
         acuerdoItemIndex: (prevState.acuerdoItemIndex + 1) % dataSource.length,
       }));
     };
+
+    const StatusCheck = () => {
+      //this.showModalForTime();
+      // Cambiar al siguiente acuerdo
+      /* this.setState((prevState) => ({
+        acuerdoItemIndex: (prevState.acuerdoItemIndex + 1) % dataSource.length,
+      })); */
+      console.log("StatusCheck: ", this.state.statusCheck);
+    };
+
+
+
+
+    
+
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const response = await fetch(
+            'https://mbdev10.000webhostapp.com/VotaCUCEI/acuerdos.json'
+          );
+          const data = await response.json();
+          setAcuerdoData(data);
+        } catch (error) {
+          console.error('Error al cargar el archivo JSON:', error);
+        }
+      };
+  
+      fetchData();
+    }, []);
+  
+    const updateFavor = async () => {
+      try {
+        if (acuerdoData) {
+          const updatedData = {
+            ...acuerdoData,
+            Favor: parseInt(acuerdoData.Favor) + 1, // Sumar 1 al campo 'Favor'
+          };
+          setAcuerdoData(updatedData);
+  
+          const response = await fetch(
+            'https://mbdev10.000webhostapp.com/VotaCUCEI/acuerdos.json',
+            {
+              method: 'PUT', // Método para actualizar el archivo (puede variar según la configuración del servidor)
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(updatedData),
+            }
+          );
+  
+          if (response.ok) {
+            console.log('Campo "Favor" actualizado correctamente.');
+          } else {
+            console.error('Error al actualizar el campo "Favor".');
+          }
+        }
+      } catch (error) {
+        console.error('Error al actualizar el campo "Favor":', error);
+      }
+    };
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -158,9 +232,14 @@ export default class Pagina1 extends Component {
                   </TouchableOpacity>
                 </View>
                 
-                <TouchableOpacity style={styles.buttonAbstener} onPress={abstenerse}>
+                {/* <TouchableOpacity style={styles.buttonAbstener} onPress={abstenerse}>
                   <Text style={styles.buttonTextAbstener}>Abstenerse (?)</Text>
+                </TouchableOpacity> */}
+
+                <TouchableOpacity style={styles.buttonAbstener} onPress={updateFavor}>
+                  <Text style={styles.buttonTextAbstener}>updateFavor</Text>
                 </TouchableOpacity>
+                
               </View>
             </View>
 
@@ -373,6 +452,3 @@ const styles = StyleSheet.create({
 
 
 
-// -Solamente mostrar un acuerdo, al votar todos, se muestra el siguiente...
-// -Los usuarios ya deben estar registrados
-// -
