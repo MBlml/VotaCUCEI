@@ -66,7 +66,7 @@ export default class Pagina1 extends Component {
 
             {/* Informacion del acuerdo  */}
             <View style={styles.textContainerPerfil}>
-              <Image style={styles.imagePerfil} source={{ uri: acuerdoItem.Imagen }} />
+              <Image source={require('./imagenes/cucei.png')} style={styles.imagePerfil} />
               <View>
               <Text style={styles.professionPerfil}>Votando por acuerdo: {acuerdoItem.id}</Text>
                 <Text style={styles.namePerfil}>{acuerdoItem.Titulo}</Text>

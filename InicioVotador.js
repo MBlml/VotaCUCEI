@@ -11,6 +11,11 @@ export default function Pagina1() {
   const [statusCheck, setStatusCheck] = useState(0);
   const [acuerdoData, setAcuerdoData] = useState(null);
 
+  const updatedFavor = 0;
+  const updatedContra = 0;
+  const updatedAbstiene = 0;
+  const updatedData = 0;
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -33,9 +38,17 @@ export default function Pagina1() {
 
   const updateFavor = async () => {
     if (acuerdoData) {
-      const updatedFavor = +acuerdoData.Favor + 1; // Incrementar localmente
-      const updatedData = { ...acuerdoData, Favor: updatedFavor };
-  
+      if (deAcuerdo()) {
+        updatedFavor = +acuerdoData.Favor + 1; // Incrementar localmente
+        updatedData = { ...acuerdoData, Favor: updatedFavor };
+      } else if (deAcuerdo()) {
+        updatedContra = +acuerdoData.Contra + 1; // Incrementar localmente
+        updatedData = { ...acuerdoData, Contra: updatedContra };
+      } else if (deAcuerdo()) {
+        updatedAbstiene = +acuerdoData.Abstiene + 1; // Incrementar localmente
+        updatedData = { ...acuerdoData, Abstiene: updatedAbstiene };
+      }
+
       try {
         // Actualizar en la base de datos
         const response = await fetch('https://mbdev10.000webhostapp.com/VotaCUCEI/actualizar_favor.php', {
@@ -120,6 +133,7 @@ export default function Pagina1() {
   // Funciones para los botones
   const deAcuerdo = () => {
     showModalForTime();
+    updateFavor();
     console.log("Estoy de acuerdo");
     // Cambiar al siguiente acuerdo
     setAcuerdoItemIndex(prevIndex => (prevIndex + 1) % dataSource.length);
@@ -127,6 +141,7 @@ export default function Pagina1() {
 
   const desAcuerdo = () => {
     showModalForTime();
+    updateFavor();
     console.log("Estoy en desacuerdo");
     // Cambiar al siguiente acuerdo
     setAcuerdoItemIndex(prevIndex => (prevIndex + 1) % dataSource.length);
@@ -134,6 +149,7 @@ export default function Pagina1() {
 
   const abstenerse = () => {
     showModalForTime();
+    updateFavor();
     console.log("Me Abstengo");
     // Cambiar al siguiente acuerdo
     setAcuerdoItemIndex(prevIndex => (prevIndex + 1) % dataSource.length);
@@ -195,13 +211,13 @@ export default function Pagina1() {
                 </TouchableOpacity>
               </View>
 
-              {/* <TouchableOpacity style={styles.buttonAbstener} onPress={abstenerse}>
+              <TouchableOpacity style={styles.buttonAbstener} onPress={abstenerse}>
                 <Text style={styles.buttonTextAbstener}>Abstenerse (?)</Text>
-              </TouchableOpacity> */}
-
-              <TouchableOpacity style={styles.buttonAbstener} onPress={updateFavor}>
-                <Text style={styles.buttonTextAbstener}>updateFavor</Text>
               </TouchableOpacity>
+
+              {/* <TouchableOpacity style={styles.buttonAbstener} onPress={updateFavor}>
+                <Text style={styles.buttonTextAbstener}>updateFavor</Text>
+              </TouchableOpacity> */}
             </View>
           </View>
         </View>
