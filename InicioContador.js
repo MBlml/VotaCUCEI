@@ -1,28 +1,53 @@
-import React, { Component } from 'react';
+import React, { Component} from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { NavigationContext } from '@react-navigation/native';
 
 import { nombreUsuario } from './IniciarSesion'; // Importa la variable desde el archivo correspondiente
 
 export default class Pagina1 extends Component {
-  static contextType = NavigationContext;
-
   constructor(props) {
     super(props);
     this.state = {
-      dataSource: [],
+      valoresVotos: {
+        favor: 0,
+        contra: 0,
+        abstiene: 0,
+        total: 0,
+        faltan: 0 ,
+      },
+      dataSource: [], // Inicializar dataSource como un array vacío
       acuerdoItemIndex: 0,
     };
   }
 
+  obtenerValoresVotos = async () => {
+    try {
+      const response = await fetch('https://mbdev10.000webhostapp.com/VotaCUCEI/votos.php');
+      if (!response.ok) {
+        throw new Error('Error al obtener los valores de votos');
+      }
+      const data = await response.json();
+      if (data && typeof data === 'object' && Object.keys(data).length > 0) {
+        this.setState({ valoresVotos: data });
+      } else {
+        throw new Error('Los datos recibidos no son válidos');
+      }
+    } catch (error) {
+      console.error('Error:', error.message);
+    }
+  };
+  
+
   // Consulta a los acuerdos
   componentDidMount() {
+    this.obtenerValoresVotos();
+
     var xhttp = new XMLHttpRequest();
     _this = this;
     xhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
         var Temp = JSON.parse(xhttp.responseText);
-        console.log('InicioVotador');
+        console.log('InicioContador');
         _this.setState({ dataSource: Temp });
       }
     };
@@ -38,16 +63,19 @@ export default class Pagina1 extends Component {
     const { dataSource, acuerdoItemIndex } = this.state;
     const acuerdoItem = dataSource[acuerdoItemIndex];
 
-    const deAcuerdo = () => {
-      console.log("Estoy de acuerdo");
-      // Cambiar al siguiente acuerdo
-      this.setState((prevState) => ({
-        acuerdoItemIndex: (prevState.acuerdoItemIndex + 1) % dataSource.length,
-      }));
-    };
+    const { valoresVotos } = this.state;
 
-    const desAcuerdo = () => {
-      console.log("Estoy en desacuerdo");
+
+
+
+
+
+
+
+
+
+    const siguiente = () => {
+      console.log("siguiente");
       // Cambiar al siguiente acuerdo
       this.setState((prevState) => ({
         acuerdoItemIndex: (prevState.acuerdoItemIndex + 1) % dataSource.length,
@@ -75,15 +103,15 @@ export default class Pagina1 extends Component {
 
             <View style={styles.textContainerPerfil2}>
               <View>
-                <Text style={styles.textStatus}>✓ De acuerdo:        0 </Text>
-                <Text style={styles.textStatus}>✗ En desacuerdo:   0 </Text>
-                <Text style={styles.textStatus}>?  Se abstienen:      0 </Text>
+                <Text style={styles.textStatus}>[ {valoresVotos.favor} ] ✓ De acuerdo</Text>
+                <Text style={styles.textStatus}>[ {valoresVotos.contra} ] ✗ En desacuerdo</Text>
+                <Text style={styles.textStatus}>[ {valoresVotos.abstiene} ] ?  Se abstienen</Text>
               </View>
             </View>
 
             <View style={styles.textContainerPerfil2}>
               <View>
-                <Text style={styles.textStatus}># Total: 0</Text>
+                <Text style={styles.textStatus}>[ {valoresVotos.total} ] # Total</Text>
               </View>
             </View>
 
@@ -101,13 +129,13 @@ export default class Pagina1 extends Component {
                   fontWeight: 'bold',
                   fontSize: 20,
                   marginLeft: 20,
-                }}>Faltan: 0{"\n"}Contador: {nombreUsuario}</Text>
+                }}>[ {valoresVotos.faltan} ] # Faltan {"\n"}Contador: {nombreUsuario}</Text>
               </View>
             </View>
 
 
             <View style={styles.buttonsContainer}>
-              <TouchableOpacity style={styles.botonLogin} onPress={deAcuerdo}>
+              <TouchableOpacity style={styles.botonLogin} onPress={siguiente}>
                 <Text style={styles.botonLoginText}>Siguiente</Text>
               </TouchableOpacity>
             </View>
