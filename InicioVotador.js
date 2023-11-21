@@ -29,30 +29,54 @@ export default function Pagina1() {
     };
 
     fetchData();
-
   }, [acuerdoItemIndex]);
 
+  const updateFavor = async () => {
+    if (acuerdoData) {
+      const updatedFavor = +acuerdoData.Favor + 1; // Incrementar localmente
+      const updatedData = { ...acuerdoData, Favor: updatedFavor };
+  
+      try {
+        // Actualizar en la base de datos
+        const response = await fetch('https://mbdev10.000webhostapp.com/VotaCUCEI/actualizar_favor.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ id: updatedData.id, Favor: updatedFavor }), // Enviar solo el id y el nuevo valor de Favor
+        });
+  
+        const responseData = await response.text();
+        console.log('Respuesta del servidor:', responseData);
+  
+        // Si la actualización en la base de datos fue exitosa, actualiza el estado local
+        setAcuerdoData(updatedData);
+      } catch (error) {
+        console.error('Error al enviar datos al servidor:', error);
+      }
+    }
+  };
+  
+  
+  
   const guardarDatosEnBD = async (data) => {
     try {
-      // Formatear los datos para enviarlos al archivo PHP
       const datosFormateados = data.map(item => ({
         id: item.id,
-        CU: item.CU,
-        Imagen: item.Imagen,
         Titulo: item.Titulo,
-        Favor: parseInt(item.Favor), // Convertir a entero
-        Contra: parseInt(item.Contra), // Convertir a entero
-        Abstiene: parseInt(item.Abstiene), // Convertir a entero
-        Total: parseInt(item.Total), // Convertir a entero
-        Faltan: parseInt(item.Faltan), // Convertir a entero
+        Favor: parseInt(item.Favor),
+        Contra: parseInt(item.Contra),
+        Abstiene: parseInt(item.Abstiene),
+        Total: parseInt(item.Total),
+        Faltan: parseInt(item.Faltan),
       }));
-
+  
       const response = await fetch('https://mbdev10.000webhostapp.com/VotaCUCEI/archivo_guardar_datos.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(datosFormateados), // Enviar los datos formateados
+        body: JSON.stringify(datosFormateados),
       });
   
       const responseData = await response.text();
@@ -60,12 +84,6 @@ export default function Pagina1() {
     } catch (error) {
       console.error('Error al enviar datos al servidor:', error);
     }
-  };
-  
-
-  
-  const updateFavor = () => {
-    console.log("prueba");
   };
   
 
@@ -181,7 +199,7 @@ export default function Pagina1() {
                 <Text style={styles.buttonTextAbstener}>Abstenerse (?)</Text>
               </TouchableOpacity> */}
 
-              <TouchableOpacity style={styles.buttonAbstener} onPress={guardarDatosEnBD}>
+              <TouchableOpacity style={styles.buttonAbstener} onPress={updateFavor}>
                 <Text style={styles.buttonTextAbstener}>updateFavor</Text>
               </TouchableOpacity>
             </View>
