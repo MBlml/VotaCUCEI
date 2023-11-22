@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, KeyboardAvoidingView,  ScrollView,  Dimensions, } from 'react-native';
 import { NavigationContext } from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
 
@@ -49,34 +49,44 @@ export default class Registro extends Component {
     };
 
     return (
-      <View style={styles.fondo}>
-        <TouchableOpacity onPress={regresar}>
-          <Text style={{ fontSize: 50, marginLeft: -170, color: "gold", position: "absolute" }}>
-            {"<"}
-          </Text>
-        </TouchableOpacity>
-
-        <View style={styles.logoContainer}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={{ flex: 1 }}
+        keyboardVerticalOffset={-0.8 * Dimensions.get('window').height}
+      >
+        <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
+          <View style={styles.fondo}>
+            <TouchableOpacity onPress={regresar}>
+              <Text style={{ fontSize: 50, marginLeft: -170, color: 'gold', position: 'absolute' }}>
+                {'<'}
+              </Text>
+            </TouchableOpacity>
+  
+            <View style={styles.logoContainer}>
           <Image source={require('./imagenes/logo.png')} style={styles.logo} />
           <Text style={styles.tittle}>VotaCUCEI</Text>
         </View>
 
         <View style={styles.inputContainer}>
-          <Text>Registro</Text>
+          <Text style={{color: "white", fontSize: 18,}}>Registro</Text>
           <TextInput style={styles.input}
             placeholder="Nombre"
+            placeholderTextColor="gold"
             onChangeText={nombre => this.setState({ nombre })}
           />
           <TextInput style={styles.input}
             placeholder="Código"
+            placeholderTextColor="gold"
             onChangeText={codigo => this.setState({ codigo })}
           />
           <TextInput style={styles.input}
             placeholder="Correo"
+            placeholderTextColor="gold"
             onChangeText={correo => this.setState({ correo })}
           />
           <TextInput style={styles.input}
             placeholder="Contraseña"
+            placeholderTextColor="gold"
             secureTextEntry={true}
             onChangeText={password => this.setState({ password })}
           />
@@ -94,8 +104,10 @@ export default class Registro extends Component {
           >
             <Text style={styles.botonLoginText}>Registrarse</Text>
           </TouchableOpacity>
-        </View>
-      </View>
+          </View>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
     );
   }
 }

@@ -127,9 +127,9 @@ export default class Pagina1 extends Component {
                 <Text style={{
                   color: "white",
                   fontWeight: 'bold',
-                  fontSize: 20,
-                  marginLeft: 20,
-                }}>[ {valoresVotos.faltan} ] # Faltan {"\n"}Contador: {nombreUsuario}</Text>
+                  fontSize: 18,
+                  marginLeft: 0,
+                }}>[ {valoresVotos.faltan} ] # Faltan (verde si faltan == 0){"\n"}Contador: {nombreUsuario}</Text>
               </View>
             </View>
 
@@ -204,6 +204,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 30,
     marginTop: 10,
+    textAlign: "center",
   },
   professionPerfil: {
     fontSize: 20,
@@ -212,6 +213,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 5,
     marginTop: 20,
+    textAlign: "center",
   },
   phonePerfil: {
     color: 'white',

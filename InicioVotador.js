@@ -111,7 +111,7 @@ export default function Pagina1() {
   // Función para mostrar el modal y controlar el contador
   const showModalForTime = () => {
     setModalVisible(true);
-    const initialCountdown = 1; // Valor inicial del contador
+    const initialCountdown = 5; // Valor inicial del contador
     setCountdown(initialCountdown);
 
     // Reducir el contador cada segundo
@@ -133,7 +133,7 @@ export default function Pagina1() {
   // Funciones para los botones
   const deAcuerdo = () => {
     showModalForTime();
-    updateFavor();
+    //updateFavor();
     console.log("Estoy de acuerdo");
     // Cambiar al siguiente acuerdo
     setAcuerdoItemIndex(prevIndex => (prevIndex + 1) % dataSource.length);
@@ -141,7 +141,7 @@ export default function Pagina1() {
 
   const desAcuerdo = () => {
     showModalForTime();
-    updateFavor();
+    //updateFavor();
     console.log("Estoy en desacuerdo");
     // Cambiar al siguiente acuerdo
     setAcuerdoItemIndex(prevIndex => (prevIndex + 1) % dataSource.length);
@@ -149,11 +149,15 @@ export default function Pagina1() {
 
   const abstenerse = () => {
     showModalForTime();
-    updateFavor();
+    //updateFavor();
     console.log("Me Abstengo");
     // Cambiar al siguiente acuerdo
     setAcuerdoItemIndex(prevIndex => (prevIndex + 1) % dataSource.length);
   };
+
+
+
+
 
   const StatusCheck = () => {
     console.log("StatusCheck: ", statusCheck);

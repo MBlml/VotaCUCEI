@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, Alert, KeyboardAvoidingView, ScrollView, Dimensions } from 'react-native';
 import { NavigationContext } from '@react-navigation/native';
 
 export let nombreUsuario = '';
@@ -105,60 +105,72 @@ export default class IniciarSesion extends Component {
       }
 
     return (
-      <View style={styles.fondo}>
-        <View style={styles.logoContainer}>
-          <Image source={require('./imagenes/logo.png')} style={styles.logo} />
-          <Text style={styles.tittle}>VotaCUCEI</Text>
-        </View>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={{ flex: 1 }}
+        keyboardVerticalOffset={-0.8 * Dimensions.get('window').height}
+      >
+      <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
+        <View style={styles.fondo}>
+          <View style={styles.logoContainer}>
+            <Image source={require('./imagenes/logo.png')} style={styles.logo} />
+            <Text style={styles.tittle}>VotaCUCEI</Text>
+          </View>
 
-        <View style={styles.inputContainer}>
-          {/* <Text>Iniciar Sesion</Text> */}
+{/* ///////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
+          <View style={styles.inputContainer}>
+            <Text style={{color: "white", fontSize: 18,}}>Iniciar Sesion</Text>
 
-          <View style={styles.registerContainer}>
-            <TouchableOpacity style={{}}
-              onPress={Votar}
-            >
-              <Text style={{color: "gold", fontSize: 25, fontWeight: "bold"}}>Votar         </Text>
-            </TouchableOpacity>
+            {/* <View style={styles.registerContainer}>
+              <TouchableOpacity style={{}}
+                onPress={Votar}
+              >
+                <Text style={{color: "gold", fontSize: 25, fontWeight: "bold"}}>Votar         </Text>
+              </TouchableOpacity>
 
-            <TouchableOpacity style={styles.buttonRegister}
-              onPress={Contar}
-            >
-              <Text style={{color: "gold", fontSize: 25, fontWeight: "bold"}}>    Contar</Text>
+              <TouchableOpacity style={styles.buttonRegister}
+                onPress={Contar}
+              >
+                <Text style={{color: "gold", fontSize: 25, fontWeight: "bold"}}>    Contar</Text>
+              </TouchableOpacity>
+            </View> */}
+{/* //////////////////////////////////////////////////////////////////////////////////////////////////////////////*/}
+
+            <TextInput
+              style={styles.input}
+              placeholder="Código"
+              placeholderTextColor="gold"
+              onChangeText={codigo => this.setState({ codigo })}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Contraseña"
+              placeholderTextColor="gold"
+              secureTextEntry={true}
+              onChangeText={password => this.setState({ password })}
+            />
+            <TouchableOpacity style={styles.botonLogin} onPress={iniciarSesion}>
+              <Text style={styles.botonLoginText}>Ingresar</Text>
             </TouchableOpacity>
           </View>
 
-
-
-          <TextInput style={styles.input}
-            placeholder="Código" 
-            onChangeText={codigo => this.setState({ codigo })}
-          />
-          <TextInput style={styles.input}
-            placeholder="Contraseña"
-            secureTextEntry={true}
-            onChangeText={password => this.setState({ password })}
-          />
-          <TouchableOpacity style={styles.botonLogin}
-            onPress={iniciarSesion}
-          >
-            <Text style={styles.botonLoginText}>Ingresar</Text>
-          </TouchableOpacity>
+          <View style={styles.registerContainer}>
+            <Text style={styles.buttonTextRegister1}>No tienes cuenta?</Text>
+            <TouchableOpacity style={styles.buttonRegister} onPress={registrar}>
+              <Text style={styles.buttonTextRegister2}>Registrar</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-        <View style={styles.registerContainer}>
-          <Text style={styles.buttonTextRegister1}>No tienes cuenta?</Text>
-          <TouchableOpacity style={styles.buttonRegister}
-            onPress={registrar}
-          >
-            <Text style={styles.buttonTextRegister2}>Registrar</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    );
+      </ScrollView>
+    </KeyboardAvoidingView>
+  );
   }
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flexGrow: 1,
+  },
   fondo: {
     backgroundColor: "rgb(14, 14, 15)",
     width: "100%",
@@ -215,6 +227,7 @@ const styles = StyleSheet.create({
   },
   buttonTextRegister1: {
     fontSize: 15,
+    color: "white",
   },
   buttonTextRegister2: {
     color: "gold",
